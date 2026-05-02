@@ -2,7 +2,6 @@
 
 ## Todo
 
-- spartan ui
 - login/register pages
 - logged in user page
 - prisma
