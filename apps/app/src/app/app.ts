@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { HlmButtonImports } from '@spartan-ng/helm/button';
 
 @Component({
-  imports: [RouterOutlet],
   selector: 'app-root',
+  imports: [RouterOutlet, HlmButtonImports],
   template: `
     <h1 class="text-3xl font-bold underline">Hello world!</h1>
+    <button hlmBtn>Button</button>
     <router-outlet />
   `,
 })
-export class App {
-  protected title = 'app';
-}
+export class App {}
