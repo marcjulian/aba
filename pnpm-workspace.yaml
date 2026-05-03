@@ -1,1 +1,4 @@
 autoInstallPeers: true
+
+packages:
+  - 'apps/api'

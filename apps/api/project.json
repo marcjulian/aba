@@ -1,0 +1,31 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "api",
+  "projectType": "application",
+  "root": "apps/api",
+  "sourceRoot": "apps/api/server",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nitro build",
+        "cwd": "{projectRoot}"
+      },
+      "outputs": ["{projectRoot}/.output"]
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nitro dev",
+        "cwd": "{projectRoot}"
+      }
+    },
+    "preview": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "nitro preview",
+        "cwd": "{projectRoot}"
+      }
+    }
+  }
+}
