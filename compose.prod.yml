@@ -40,7 +40,7 @@ services:
     depends_on:
       - api
     environment:
-      # prevent SSRF for local development 
+      # prevent SSRF for local development
       - NG_ALLOWED_HOSTS=localhost
 
 volumes:

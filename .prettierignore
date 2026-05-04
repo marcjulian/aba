@@ -6,4 +6,5 @@
 .angular
 
 pnpm-lock.yaml
-apps/api/server/utils/generated/prisma
+apps/api/server/utils/generated/prisma/
+apps/api/.output/
