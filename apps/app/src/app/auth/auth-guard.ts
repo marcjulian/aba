@@ -27,6 +27,6 @@ export const redirectLoggedInGuard: CanActivateFn = () => {
 
   return auth.useSession().pipe(
     filter((s) => !s.isPending),
-    map((s) => (s.data ? router.parseUrl('/home') : true)),
+    map((s) => (s.data ? router.parseUrl('/dashboard') : true)),
   );
 };
