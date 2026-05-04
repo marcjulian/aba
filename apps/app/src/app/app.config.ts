@@ -1,4 +1,8 @@
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from '@angular/common/http';
 import {
   ApplicationConfig,
   provideBrowserGlobalErrorListeners,
@@ -13,6 +17,7 @@ import {
   withInMemoryScrolling,
 } from '@angular/router';
 import { appRoutes } from './app.routes';
+import { cookiesInterceptor } from './auth/cookies.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,6 +31,6 @@ export const appConfig: ApplicationConfig = {
         scrollPositionRestoration: 'enabled',
       }),
     ),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withFetch(), withInterceptors([cookiesInterceptor])),
   ],
 };

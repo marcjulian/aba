@@ -4,16 +4,15 @@ import { filter, map } from 'rxjs/operators';
 import { injectAuthClient } from './auth-client';
 
 export function authGuard(): CanActivateFn {
-  return () => {
-    const router = inject(Router);
-
+  return (state) => {
     const auth = injectAuthClient();
+    const router = inject(Router);
 
     return auth.useSession().pipe(
       filter((s) => !s.isPending),
       map((s) => {
-        if (!s.data?.user) {
-          return router.parseUrl('/login');
+        if (!s.data) {
+          return router.parseUrl('/login?redirect=' + (state.url ?? '/'));
         }
 
         return true;
@@ -21,3 +20,13 @@ export function authGuard(): CanActivateFn {
     );
   };
 }
+
+export const redirectLoggedInGuard: CanActivateFn = () => {
+  const auth = injectAuthClient();
+  const router = inject(Router);
+
+  return auth.useSession().pipe(
+    filter((s) => !s.isPending),
+    map((s) => (s.data ? router.parseUrl('/home') : true)),
+  );
+};

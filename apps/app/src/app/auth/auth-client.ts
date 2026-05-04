@@ -1,9 +1,9 @@
 import { computed } from '@angular/core';
+import { environment } from '../../environments/environment';
 import { createAuthClient } from './better-auth-adapter';
 
 export const injectAuthClient = createAuthClient({
-  // TODO use environment file
-  baseURL: 'http://localhost:3000',
+  baseURL: environment.apiUrl,
 });
 
 export const injectAuthSession = () => {

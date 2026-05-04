@@ -23,7 +23,7 @@ export default defineHandler((event) => {
   }
 
   // Handle the Preflight (OPTIONS) request
-  if (event.method === 'OPTIONS') {
+  if (event.req.method === 'OPTIONS') {
     return noContent();
   }
 });

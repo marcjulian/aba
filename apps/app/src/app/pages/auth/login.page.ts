@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   input,
   signal,
 } from '@angular/core';
@@ -13,7 +14,7 @@ import {
   required,
   submit,
 } from '@angular/forms/signals';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { toast } from '@spartan-ng/brain/sonner';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmFieldImports } from '@spartan-ng/helm/field';
@@ -97,9 +98,12 @@ import { AuthLayout } from '../../layouts/auth.layout';
   `,
 })
 export class LoginPage {
+  private router = inject(Router);
   private authClient = injectAuthClient();
 
-  readonly redirect = input('/dashboard');
+  readonly redirect = input<string, string | undefined>('/dashboard', {
+    transform: (value) => value || '/dashboard',
+  });
 
   private model = signal({
     email: '',
@@ -130,13 +134,14 @@ export class LoginPage {
       const { data, error } = await this.authClient.signIn.email({
         email: loginData.email,
         password: loginData.password,
-        callbackURL: this.redirect() || '/dashboard',
       });
 
       if (error) {
         toast.error(error?.message || 'Login failed');
       } else if (data) {
-        toast.success('Login successful');
+        this.router.navigateByUrl(this.redirect(), {
+          replaceUrl: true,
+        });
       }
     });
   }
