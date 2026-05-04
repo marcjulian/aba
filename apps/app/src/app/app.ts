@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { HlmButtonImports } from '@spartan-ng/helm/button';
+import { HlmToasterImports } from '@spartan-ng/helm/sonner';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HlmButtonImports],
+  imports: [RouterOutlet, HlmToasterImports],
   template: `
-    <h1 class="text-3xl font-bold underline">Hello world!</h1>
-    <button hlmBtn>Button</button>
     <router-outlet />
+
+    @defer {
+      <hlm-toaster />
+    }
   `,
 })
 export class App {}

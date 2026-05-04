@@ -63,7 +63,6 @@
     "eslint-config-prettier": "^10.1.8",
     "jsdom": "^27.1.0",
     "jsonc-eslint-parser": "^2.1.0",
-    "ng-packagr": "~21.2.3",
     "nx": "22.7.1",
     "postcss": "^8.5.13",
     "prettier": "~3.8.3",
