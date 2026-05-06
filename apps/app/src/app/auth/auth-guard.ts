@@ -11,7 +11,7 @@ export function authGuard(): CanActivateFn {
     return auth.useSession().pipe(
       filter((s) => !s.isPending),
       map((s) => {
-        if (!s.data) {
+        if (!s.data?.user) {
           return router.parseUrl('/login?redirect=' + (state.url ?? '/'));
         }
 
@@ -27,6 +27,6 @@ export const redirectLoggedInGuard: CanActivateFn = () => {
 
   return auth.useSession().pipe(
     filter((s) => !s.isPending),
-    map((s) => (s.data ? router.parseUrl('/dashboard') : true)),
+    map((s) => (s.data?.user ? router.parseUrl('/dashboard') : true)),
   );
 };
