@@ -24,7 +24,10 @@
         "ssr": {
           "entry": "apps/app/src/server.ts"
         },
-        "outputMode": "server"
+        "outputMode": "server",
+        "security": {
+          "allowedHosts": ["app.aba.marcjulian.de"]
+        }
       },
       "configurations": {
         "production": {
