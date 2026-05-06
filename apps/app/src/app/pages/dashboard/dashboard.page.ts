@@ -33,6 +33,8 @@ export class DashboardPage {
       fetchOptions: {
         onSuccess: () => {
           this.router.navigateByUrl('/', { replaceUrl: true });
+          // alternatively mirror login callback behaviour
+          // window.location.href = '/login';
         },
       },
     });
