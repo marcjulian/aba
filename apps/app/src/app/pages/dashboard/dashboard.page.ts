@@ -32,7 +32,9 @@ export class DashboardPage {
     await this.auth.signOut({
       fetchOptions: {
         onSuccess: () => {
-          this.router.navigateByUrl('/login', { replaceUrl: true });
+          this.router.navigateByUrl('/', { replaceUrl: true });
+          // alternatively mirror login callback behaviour
+          // window.location.href = '/login';
         },
       },
     });

@@ -22,6 +22,7 @@ import { HlmInputImports } from '@spartan-ng/helm/input';
 import { HlmSpinnerImports } from '@spartan-ng/helm/spinner';
 import { injectAuthClient } from '../../auth/auth-client';
 import { AuthLayout } from '../../layouts/auth.layout';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'abst-login',
@@ -134,6 +135,8 @@ export class LoginPage {
       const { data, error } = await this.authClient.signIn.email({
         email: loginData.email,
         password: loginData.password,
+        // TODO: use redirectTo query param here if exists
+        callbackURL: environment.baseUrl + '/dashboard',
       });
 
       if (error) {
