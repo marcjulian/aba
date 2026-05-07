@@ -1,8 +1,7 @@
 import { JsonPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
-import { injectAuthClient, injectAuthUser } from '../../auth/auth-client';
+import { injectAuthUser } from '../../auth/auth-client';
 import { DashboardLayout } from '../../layouts/dashboard.layout';
 
 @Component({
@@ -11,14 +10,7 @@ import { DashboardLayout } from '../../layouts/dashboard.layout';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-dashboard-layout>
-      <header class="flex h-(--header-height) items-center justify-between">
-        <h1>Dashboard Page</h1>
-
-        <button hlmBtn variant="outline" size="sm" (click)="logout()">
-          Logout
-        </button>
-      </header>
-
+      <h1>Dashboard Page</h1>
       <div>
         <pre>
         {{ user() | json }}
@@ -29,17 +21,5 @@ import { DashboardLayout } from '../../layouts/dashboard.layout';
   `,
 })
 export class DashboardPage {
-  private readonly router = inject(Router);
-  private readonly auth = injectAuthClient();
   readonly user = injectAuthUser();
-
-  async logout() {
-    await this.auth.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          this.router.navigateByUrl('/', { replaceUrl: true });
-        },
-      },
-    });
-  }
 }
