@@ -7,7 +7,11 @@ export const auth = betterAuth({
   secret: process.env['BETTER_AUTH_SECRET'],
   trustedOrigins: [process.env['APP_URL']!],
   advanced: {
-    trustedProxyHeaders: true,
+    // trustedProxyHeaders: true,
+    crossSubDomainCookies: {
+      enabled: true,
+      domain: 'aba.marcjulian.de',
+    },
   },
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
