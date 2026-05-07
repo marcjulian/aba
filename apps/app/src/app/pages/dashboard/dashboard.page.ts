@@ -37,7 +37,7 @@ export class DashboardPage {
     await this.auth.signOut({
       fetchOptions: {
         onSuccess: () => {
-          this.router.navigateByUrl('/login', { replaceUrl: true });
+          this.router.navigateByUrl('/', { replaceUrl: true });
         },
       },
     });
