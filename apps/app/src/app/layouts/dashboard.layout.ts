@@ -6,7 +6,7 @@ import { HlmButtonImports } from '@spartan-ng/helm/button';
   imports: [HlmButtonImports],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <main>
+    <main class="mx-auto max-w-(--breakpoint-lg) px-4">
       <ng-content />
     </main>
   `,

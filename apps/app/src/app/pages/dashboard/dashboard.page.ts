@@ -11,14 +11,19 @@ import { DashboardLayout } from '../../layouts/dashboard.layout';
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-dashboard-layout>
-      <h1>Dashboard Page</h1>
+      <header class="flex h-(--header-height) items-center justify-between">
+        <h1>Dashboard Page</h1>
 
-      <button hlmBtn variant="outline" size="sm" (click)="logout()">
-        Logout
-      </button>
+        <button hlmBtn variant="outline" size="sm" (click)="logout()">
+          Logout
+        </button>
+      </header>
 
       <div>
+        <pre>
         {{ user() | json }}
+      </pre
+        >
       </div>
     </app-dashboard-layout>
   `,
