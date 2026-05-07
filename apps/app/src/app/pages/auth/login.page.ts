@@ -22,7 +22,6 @@ import { HlmInputImports } from '@spartan-ng/helm/input';
 import { HlmSpinnerImports } from '@spartan-ng/helm/spinner';
 import { injectAuthClient } from '../../auth/auth-client';
 import { AuthLayout } from '../../layouts/auth.layout';
-import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'abst-login',
@@ -102,8 +101,8 @@ export class LoginPage {
   private router = inject(Router);
   private authClient = injectAuthClient();
 
-  readonly redirect = input<string, string | undefined>('/dashboard', {
-    transform: (value) => value || '/dashboard',
+  readonly redirect = input<string, string | undefined>('dashboard', {
+    transform: (value) => value || 'dashboard',
   });
 
   private model = signal({
@@ -132,19 +131,14 @@ export class LoginPage {
     submit(this.form, async () => {
       const loginData = this.model();
 
-      const { data, error } = await this.authClient.signIn.email({
+      const { error } = await this.authClient.signIn.email({
         email: loginData.email,
         password: loginData.password,
-        // TODO: use redirectTo query param here if exists
-        callbackURL: environment.baseUrl + '/dashboard',
+        callbackURL: `/${this.redirect()}`,
       });
 
       if (error) {
         toast.error(error?.message || 'Login failed');
-      } else if (data) {
-        this.router.navigateByUrl(this.redirect(), {
-          replaceUrl: true,
-        });
       }
     });
   }

@@ -158,8 +158,8 @@ export class RegisterPage {
   private authClient = injectAuthClient();
   private readonly router = inject(Router);
 
-  readonly redirect = input<string, string | undefined>('/dashboard', {
-    transform: (value) => value || '/dashboard',
+  readonly redirect = input<string, string | undefined>('dashboard', {
+    transform: (value) => value || 'dashboard',
   });
 
   model = signal({
