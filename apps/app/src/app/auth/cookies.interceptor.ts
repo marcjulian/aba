@@ -15,10 +15,6 @@ export function cookiesInterceptor(
     // only use for custom endpoints requested by http client
     !req.url.startsWith(`${apiURL}/api/auth`);
 
-  if (ssrRequest) {
-    console.log('SSR Request cookie:', ssrRequest.headers.get('cookie'));
-  }
-
   if (isOwnAPI) {
     const clonedReq: HttpRequest<unknown> = req.clone({
       withCredentials: true,
