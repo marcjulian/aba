@@ -148,6 +148,12 @@ export function createAuthClient<Options extends AuthClientOptions>(
               ...this._headersFromFetch(this._request?.headers),
             });
 
+            console.log('Better Auth Custom Fetch:', {
+              url,
+              init,
+              headers: headers.keys(),
+            });
+
             const path = url.toString().replace(this._origin, '');
             const method = init?.method ?? 'GET';
 
