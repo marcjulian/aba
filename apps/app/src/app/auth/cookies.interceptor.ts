@@ -10,10 +10,11 @@ export function cookiesInterceptor(
   const ssrRequest: Request | null = inject(REQUEST);
   const apiURL = environment.apiUrl;
   const isOwnAPI =
-    req.url.startsWith(apiURL) &&
+    req.url.startsWith(apiURL) 
+    // &&
     // skip for better auth urls, handled by better auth client
     // only use for custom endpoints requested by http client
-    !req.url.startsWith(`${apiURL}/api/auth`);
+    // !req.url.startsWith(`${apiURL}/api/auth`);
 
   if (isOwnAPI) {
     const clonedReq: HttpRequest<unknown> = req.clone({
