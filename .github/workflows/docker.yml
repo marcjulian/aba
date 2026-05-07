@@ -42,20 +42,21 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Docker meta prisma-migrate
-        id: meta-prisma-migrate
-        uses: docker/metadata-action@v6
-        with:
-          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.PRISMA_MIGRATE_IMAGE_NAME }}
+      # comment out for now - enable when db changes or trigger manually?
+      # - name: Docker meta prisma-migrate
+      #   id: meta-prisma-migrate
+      #   uses: docker/metadata-action@v6
+      #   with:
+      #     images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.PRISMA_MIGRATE_IMAGE_NAME }}
 
-      - name: Build Prisma Migrate Docker Image
-        uses: docker/build-push-action@v7
-        with:
-          context: .
-          file: prisma/Dockerfile
-          push: true
-          tags: ${{ steps.meta-prisma-migrate.outputs.tags }}
-          labels: ${{ steps.meta-prisma-migrate.outputs.labels }}
+      # - name: Build Prisma Migrate Docker Image
+      #   uses: docker/build-push-action@v7
+      #   with:
+      #     context: .
+      #     file: prisma/Dockerfile
+      #     push: true
+      #     tags: ${{ steps.meta-prisma-migrate.outputs.tags }}
+      #     labels: ${{ steps.meta-prisma-migrate.outputs.labels }}
 
       - name: Docker meta app
         id: meta-app
