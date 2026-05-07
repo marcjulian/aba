@@ -16,7 +16,7 @@ export function cookiesInterceptor(
     !req.url.startsWith(`${apiURL}/api/auth`);
 
   if (ssrRequest) {
-    console.log('SSR Request Headers:', ssrRequest.headers);
+    console.log('SSR Request cookie:', ssrRequest.headers.get('cookie'));
   }
 
   if (isOwnAPI) {
