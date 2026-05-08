@@ -20,6 +20,7 @@ import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmFieldImports } from '@spartan-ng/helm/field';
 import { HlmInputImports } from '@spartan-ng/helm/input';
 import { HlmSpinnerImports } from '@spartan-ng/helm/spinner';
+import { environment } from '../../../environments/environment';
 import { injectAuthClient } from '../../auth/auth-client';
 import { AuthLayout } from '../../layouts/auth.layout';
 
@@ -101,9 +102,12 @@ export class LoginPage {
   private router = inject(Router);
   private authClient = injectAuthClient();
 
-  readonly redirect = input<string, string | undefined>('dashboard', {
-    transform: (value) => value || 'dashboard',
-  });
+  readonly redirect = input<string, string | undefined>(
+    environment.defaultRedirect,
+    {
+      transform: (value) => value || environment.defaultRedirect,
+    },
+  );
 
   private model = signal({
     email: '',
@@ -134,7 +138,7 @@ export class LoginPage {
       const { error } = await this.authClient.signIn.email({
         email: loginData.email,
         password: loginData.password,
-        callbackURL: `/${this.redirect()}`,
+        callbackURL: this.redirect(),
       });
 
       if (error) {

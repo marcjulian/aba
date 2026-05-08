@@ -21,6 +21,7 @@ import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmFieldImports } from '@spartan-ng/helm/field';
 import { HlmInputImports } from '@spartan-ng/helm/input';
 import { HlmSpinnerImports } from '@spartan-ng/helm/spinner';
+import { environment } from '../../../environments/environment';
 import { injectAuthClient } from '../../auth/auth-client';
 import { AuthLayout } from '../../layouts/auth.layout';
 
@@ -158,9 +159,12 @@ export class RegisterPage {
   private authClient = injectAuthClient();
   private readonly router = inject(Router);
 
-  readonly redirect = input<string, string | undefined>('dashboard', {
-    transform: (value) => value || 'dashboard',
-  });
+  readonly redirect = input<string, string | undefined>(
+    environment.defaultRedirect,
+    {
+      transform: (value) => value || environment.defaultRedirect,
+    },
+  );
 
   model = signal({
     name: '',
@@ -217,7 +221,8 @@ export class RegisterPage {
         toast.error(error?.message || 'Sign up failed');
       } else if (data) {
         toast.success('Sign up successful');
-        this.router.navigateByUrl(this.redirect(), {
+        await this.authClient.useSession()().refetch();
+        await this.router.navigateByUrl(this.redirect(), {
           replaceUrl: true,
         });
       }

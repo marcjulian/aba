@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideCat } from '@ng-icons/lucide';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
-import { injectAuthClient, injectAuthUser } from '../auth/auth-client';
+import { injectLogout } from '../auth/auth-client';
 
 @Component({
   selector: 'app-dashboard-header',
@@ -23,27 +23,13 @@ import { injectAuthClient, injectAuthUser } from '../auth/auth-client';
       </nav> -->
 
       <div class="ml-auto flex gap-1">
-        @if (user()) {
-          <button hlmBtn variant="outline" size="sm" (click)="logout()">
-            Logout
-          </button>
-        }
+        <button hlmBtn variant="outline" size="sm" (click)="logout()">
+          Logout
+        </button>
       </div>
     </header>
   `,
 })
 export class DashboardHeader {
-  private readonly auth = injectAuthClient();
-  private readonly router = inject(Router);
-  readonly user = injectAuthUser();
-
-  async logout() {
-    await this.auth.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          this.router.navigateByUrl('/', { replaceUrl: true });
-        },
-      },
-    });
-  }
+  readonly logout = injectLogout();
 }

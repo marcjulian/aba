@@ -9,7 +9,7 @@ import { HlmToasterImports } from '@spartan-ng/helm/sonner';
     <router-outlet />
 
     @defer {
-      <hlm-toaster />
+      <hlm-toaster position="top-right" richColors />
     }
   `,
 })
