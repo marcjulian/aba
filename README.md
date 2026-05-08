@@ -1,17 +1,72 @@
-# Angular + Better Auth
+# aba - Angular + Better Auth
 
-## Todo
+1. [Angular](https://angular.io/) the frontend framework for building web applications
+2. [Better Auth](https://www.better-auth.com/) the authentication framework
+3. [spartan/ui](https://spartan.ng/) accessible, customizable components for Angular applications
+4. [Prisma](https://www.prisma.io/) database migration and ORM
+5. [NX](https://nx.dev/) monorepo tool for managing multiple applications and libraries in a single repository
 
-- docker
-- docker ci
+## Quick Start
 
-## Commands
+Install dependencies
 
-Better Auth
+```bash
+pnpm install
+```
+
+Copy the `.env.dev` file and fill in the `BETTER_AUTH_SECRET` and `BETTER_AUTH_URL` values.
+
+```bash
+cp .env.dev .env
+```
+
+Start postgres database with docker compose
+
+```bash
+docker compose up -d
+```
+
+Run the prisma migration to create the database and tables:
+
+```bash
+pnpm prisma migrate dev
+```
+
+Serve the analog app
+
+```bash
+pnpm start
+```
+
+Visit [localhost:5173](http://localhost:5173) to see the app running.
+
+Sign up a new user and than you can seed the database with dummy data
+
+```bash
+pnpm prisma db seed
+```
+
+### Better Auth
+
+Run the following command to update prisma schema base on the Better Auth configuration:
 
 ```bash
 # generate schema
 pnpm dlx auth@latest generate --config apps/api/server/utils/auth.ts
+```
+
+### Prisma
+
+Run the following command to create the database and run the migrations:
+
+```bash
+pnpm prisma migrate dev
+```
+
+Generate the Prisma client:
+
+```bash
+pnpm prisma generate
 ```
 
 ## App SSR
