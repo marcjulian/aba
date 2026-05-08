@@ -3,8 +3,9 @@
 1. [Angular](https://angular.io/) the frontend framework for building web applications
 2. [Better Auth](https://www.better-auth.com/) the authentication framework
 3. [spartan/ui](https://spartan.ng/) accessible, customizable components for Angular applications
-4. [Prisma](https://www.prisma.io/) database migration and ORM
-5. [NX](https://nx.dev/) monorepo tool for managing multiple applications and libraries in a single repository
+4. [tRPC](https://trpc.io/) end-to-end typesafe APIs
+5. [Prisma](https://www.prisma.io/) database migration and ORM
+6. [NX](https://nx.dev/) monorepo tool for managing multiple applications and libraries in a single repository
 
 ## Quick Start
 
