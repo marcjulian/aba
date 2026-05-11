@@ -10,12 +10,10 @@ import { join } from 'node:path';
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
+const allowedHost = process.env['APP_DOMAIN'];
+
 const angularApp = new AngularNodeAppEngine({
-  // trustProxyHeaders: [
-  //   'x-forwarded-host',
-  //   'x-forwarded-for',
-  //   'x-forwarded-proto',
-  // ],
+  allowedHosts: allowedHost ? [allowedHost] : [],
   trustProxyHeaders: true,
 });
 
