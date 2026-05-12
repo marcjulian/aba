@@ -12,7 +12,7 @@ export const createContext = async ({ req }: FetchCreateContextFnOptions) => {
   });
 
   return {
-    auth: session,
+    req,
   };
 };
 export type Context = Awaited<ReturnType<typeof createContext>>;
