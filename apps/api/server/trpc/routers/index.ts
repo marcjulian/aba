@@ -1,6 +1,8 @@
 import { authedProcedure, router } from '../trpc';
+import { adminRouter } from './admin.router';
 
 export const appRouter = router({
+  admin: adminRouter,
   me: authedProcedure.query(({ ctx }) => {
     return ctx.user;
   }),

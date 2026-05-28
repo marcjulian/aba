@@ -21,6 +21,13 @@ const isAuthed = t.middleware(async ({ ctx, next }) => {
   return next({ ctx: { ...session } });
 });
 
+const isAdmin = isAuthed.unstable_pipe(async ({ ctx, next }) => {
+  if (ctx.user.role !== 'admin') {
+    throw new TRPCError({ code: 'FORBIDDEN' });
+  }
+  return next();
+});
+
 /**
  * Export reusable router and procedure helpers
  * that can be used throughout the router
@@ -28,3 +35,4 @@ const isAuthed = t.middleware(async ({ ctx, next }) => {
 export const router = t.router;
 export const publicProcedure = t.procedure;
 export const authedProcedure = t.procedure.use(isAuthed);
+export const adminProcedure = t.procedure.use(isAdmin);

@@ -18,14 +18,14 @@ export const authGuard = (...roles: string[]): CanActivateFn => {
           });
         }
 
-        // when admin plugin is enabled
-        // if (
-        //   roles.length > 0 &&
-        //   s.data.user.role &&
-        //   !roles.includes(s.data.user.role)
-        // ) {
-        //   return router.parseUrl('/unauthorized');
-        // }
+        // requires admin plugin
+        if (
+          roles.length > 0 &&
+          s.data.user.role &&
+          !roles.includes(s.data.user.role)
+        ) {
+          return router.parseUrl('/forbidden');
+        }
 
         return true;
       }),

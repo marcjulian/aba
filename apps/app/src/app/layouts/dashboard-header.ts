@@ -1,9 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideCat } from '@ng-icons/lucide';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
-import { injectLogout } from '../auth/auth-client';
+import { injectAuthUser, injectLogout } from '../auth/auth-client';
 
 @Component({
   selector: 'app-dashboard-header',
@@ -23,6 +23,9 @@ import { injectLogout } from '../auth/auth-client';
       </nav> -->
 
       <div class="ml-auto flex gap-1">
+        @if (isAdmin()) {
+          <a routerLink="/admin" hlmBtn variant="outline" size="sm">Admin</a>
+        }
         <button hlmBtn variant="outline" size="sm" (click)="logout()">
           Logout
         </button>
@@ -32,4 +35,7 @@ import { injectLogout } from '../auth/auth-client';
 })
 export class DashboardHeader {
   readonly logout = injectLogout();
+  readonly user = injectAuthUser();
+
+  isAdmin = computed(() => this.user()?.role === 'admin');
 }

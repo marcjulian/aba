@@ -1,10 +1,12 @@
 import { computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { adminClient } from 'better-auth/client/plugins';
 import { environment } from '../../environments/environment';
 import { createAuthClient } from './better-auth-adapter';
 
 export const injectAuthClient = createAuthClient({
   baseURL: environment.apiUrl,
+  plugins: [adminClient()],
 });
 
 export const injectAuthSession = () => {

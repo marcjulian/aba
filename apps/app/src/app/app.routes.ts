@@ -24,4 +24,20 @@ export const appRoutes: Route[] = [
       import('./pages/dashboard/dashboard.page').then((m) => m.DashboardPage),
     canActivate: [authGuard()],
   },
+  {
+    path: 'admin',
+    loadComponent: () =>
+      import('./pages/admin/admin.page').then((m) => m.AdminPage),
+    canActivate: [authGuard('admin')],
+  },
+  {
+    path: 'forbidden',
+    loadComponent: () =>
+      import('./pages/forbidden.page').then((m) => m.ForbiddenPage),
+  },
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./pages/404.page').then((m) => m.NotFoundPage),
+  },
 ];
