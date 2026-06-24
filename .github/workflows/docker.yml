@@ -36,7 +36,7 @@ jobs:
         run: pnpm install --frozen-lockfile --prefer-offline
 
       - name: Build apps for docker
-        run: pnpm run build:docker
+        run: pnpm build
 
       - name: Upload app build artifacts
         uses: actions/upload-artifact@v6
