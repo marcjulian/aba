@@ -2,7 +2,7 @@ FROM node:24-alpine
 
 WORKDIR /app
 
-COPY apps/api/.output .
+COPY dist/apps/api .
 
 EXPOSE 3000
 
