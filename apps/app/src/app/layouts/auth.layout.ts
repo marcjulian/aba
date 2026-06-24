@@ -1,20 +1,20 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { lucideCat } from '@ng-icons/lucide';
+import { lucidePanda } from '@ng-icons/lucide';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 
 @Component({
   selector: 'app-auth-layout',
   imports: [RouterLink, NgIcon, HlmButtonImports],
-  providers: [provideIcons({ lucideCat })],
+  providers: [provideIcons({ lucidePanda })],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="grid min-h-svh lg:grid-cols-2">
       <div class="flex flex-col gap-4 p-6 md:p-10">
         <div class="flex justify-center gap-2 md:justify-start">
           <a routerLink="/" hlmBtn variant="ghost" size="sm">
-            <ng-icon name="lucideCat" />
+            <ng-icon name="lucidePanda" />
             aba
           </a>
         </div>
