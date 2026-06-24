@@ -1,8 +1,9 @@
-name: Docker
+name: Docker Image Publish
 
 on:
   push:
     branches: ['main']
+    tags: ['*']
   # build manually for pull request
   workflow_dispatch:
 
@@ -10,30 +11,65 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  packages: write
+
 env:
   REGISTRY: ghcr.io
-  APP_IMAGE_NAME: aba-app
-  API_IMAGE_NAME: aba-api
-  PRISMA_MIGRATE_IMAGE_NAME: aba-prisma-migrate
 
 jobs:
-  build:
+  prepare-app-builds:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
 
     steps:
-      - uses: actions/checkout@v6
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
       - name: Setup pnpm
-        uses: pnpm/action-setup@v5
+        uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v6
         with:
           node-version-file: .node-version
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --prefer-offline
-      - run: pnpm build
+
+      - name: Build apps for docker
+        run: pnpm run build:docker
+
+      - name: Upload app build artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: app-builds
+          if-no-files-found: error
+          path: |
+            dist/apps/app
+            dist/apps/api
+
+  publish-app-images:
+    runs-on: ubuntu-latest
+    needs: prepare-app-builds
+    strategy:
+      fail-fast: false
+      matrix:
+        image:
+          - name: app
+            image-name: aba-app
+            dockerfile: apps/app/Dockerfile
+          - name: api
+            image-name: aba-api
+            dockerfile: apps/api/Dockerfile
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Download app build artifacts
+        uses: actions/download-artifact@v6
+        with:
+          name: app-builds
+          path: dist/apps
 
       - name: Login to registry ${{ env.REGISTRY }}
         uses: docker/login-action@v4
@@ -42,48 +78,17 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # comment out for now - enable when db changes or trigger manually?
-      - name: Docker meta prisma-migrate
-        id: meta-prisma-migrate
+      - name: Docker meta ${{ matrix.image.name }}
+        id: meta
         uses: docker/metadata-action@v6
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.PRISMA_MIGRATE_IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ matrix.image.image-name }}
 
-      - name: Build Prisma Migrate Docker Image
+      - name: Build ${{ matrix.image.name }} Docker Image
         uses: docker/build-push-action@v7
         with:
           context: .
-          file: prisma/Dockerfile
+          file: ${{ matrix.image.dockerfile }}
           push: true
-          tags: ${{ steps.meta-prisma-migrate.outputs.tags }}
-          labels: ${{ steps.meta-prisma-migrate.outputs.labels }}
-
-      - name: Docker meta app
-        id: meta-app
-        uses: docker/metadata-action@v6
-        with:
-          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.APP_IMAGE_NAME }}
-
-      - name: Build App Docker Image
-        uses: docker/build-push-action@v7
-        with:
-          context: .
-          file: apps/app/Dockerfile
-          push: true
-          tags: ${{ steps.meta-app.outputs.tags }}
-          labels: ${{ steps.meta-app.outputs.labels }}
-
-      - name: Docker meta api
-        id: meta-api
-        uses: docker/metadata-action@v6
-        with:
-          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.API_IMAGE_NAME }}
-
-      - name: Build API Docker Image
-        uses: docker/build-push-action@v7
-        with:
-          context: .
-          file: apps/api/Dockerfile
-          push: true
-          tags: ${{ steps.meta-api.outputs.tags }}
-          labels: ${{ steps.meta-api.outputs.labels }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
