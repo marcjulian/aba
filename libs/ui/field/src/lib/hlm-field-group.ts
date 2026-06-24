@@ -3,9 +3,7 @@ import { classes } from '@spartan-ng/helm/utils';
 
 @Directive({
   selector: '[hlmFieldGroup],hlm-field-group',
-  host: {
-    'data-slot': 'field-group',
-  },
+  host: { 'data-slot': 'field-group' },
 })
 export class HlmFieldGroup {
   constructor() {

@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { BrnFieldA11yService } from '@spartan-ng/brain/field';
 import { classes } from '@spartan-ng/helm/utils';
-import type { ClassValue } from 'clsx';
 
 @Directive({
   selector: '[hlmFieldDescription],hlm-field-description',
@@ -25,7 +24,6 @@ export class HlmFieldDescription implements OnDestroy {
     host: true,
   });
 
-  public readonly userClass = input<ClassValue>('', { alias: 'class' });
   public readonly id = input<string>(
     `hlm-field-description-${HlmFieldDescription._id++}`,
   );
@@ -51,10 +49,9 @@ export class HlmFieldDescription implements OnDestroy {
 
   constructor() {
     classes(() => [
-      'text-muted-foreground text-sm leading-normal font-normal group-has-[[data-orientation=horizontal]]/field:text-balance',
-      'last:mt-0 nth-last-2:-mt-1 [[data-variant=legend]+&]:-mt-1.5',
+      'text-muted-foreground text-start text-sm leading-normal font-normal group-has-data-horizontal/field:text-balance [[data-variant=legend]+&]:-mt-1.5',
+      'last:mt-0 nth-last-2:-mt-1',
       '[&>a:hover]:text-primary [&>a]:underline [&>a]:underline-offset-4',
-      this.userClass(),
     ]);
   }
 
