@@ -17,6 +17,7 @@ import {
   withComponentInputBinding,
   withInMemoryScrolling,
 } from '@angular/router';
+import { provideSpartanHlm } from '@spartan-ng/helm/utils';
 import { filter, first } from 'rxjs';
 import { appRoutes } from './app.routes';
 import { injectAuthClient } from './auth/auth-client';
@@ -35,6 +36,7 @@ export const appConfig: ApplicationConfig = {
       }),
     ),
     provideHttpClient(withFetch(), withInterceptors([cookiesInterceptor])),
+    provideSpartanHlm(),
     // used to prevent flicker while better auth state is being loaded on app start, by waiting for first non pending session state before app initialization is completed
     provideAppInitializer(() => {
       const auth = injectAuthClient();

@@ -3,9 +3,7 @@ import { classes } from '@spartan-ng/helm/utils';
 
 @Directive({
   selector: '[hlmEmptyDescription]',
-  host: {
-    'data-slot': 'empty-description',
-  },
+  host: { 'data-slot': 'empty-description' },
 })
 export class HlmEmptyDescription {
   constructor() {

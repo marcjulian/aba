@@ -26,8 +26,7 @@ export class HlmSpinner {
 
   constructor() {
     classes(
-      () =>
-        'inline-flex text-[calc(var(--spacing)*4)] motion-safe:animate-spin',
+      () => 'inline-flex text-[length:--spacing(4)] motion-safe:animate-spin',
     );
   }
 }
