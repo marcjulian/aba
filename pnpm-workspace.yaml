@@ -1,4 +1,17 @@
-autoInstallPeers: true
+minimumReleaseAge: 1440
+minimumReleaseAgeExclude:
+  - '@spartan-ng/*'
 
 packages:
   - 'apps/api'
+
+allowBuilds:
+  '@parcel/watcher': false
+  '@prisma/engines': false
+  '@swc/core': false
+  esbuild: false
+  less: false
+  lmdb: false
+  msgpackr-extract: false
+  nx: false
+  prisma: false
