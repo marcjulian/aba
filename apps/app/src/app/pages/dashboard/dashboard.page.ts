@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, resource } from '@angular/core';
+import { Component, resource } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideCircleCheck, lucideCircleX } from '@ng-icons/lucide';
 import { HlmBadgeImports } from '@spartan-ng/helm/badge';
@@ -11,7 +11,6 @@ import { injectTrpc } from '../../trpc/trpc.service';
   selector: 'app-dashboard-page',
   imports: [DashboardLayout, HlmCardImports, HlmBadgeImports, NgIcon],
   providers: [provideIcons({ lucideCircleCheck, lucideCircleX })],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-dashboard-layout>
       <h1 class="text-4xl font-semibold">Dashboard</h1>

@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  input,
-  signal,
-} from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import {
   email,
   form,
@@ -35,7 +29,6 @@ import { AuthLayout } from '../../layouts/auth.layout';
     HlmInputImports,
     HlmSpinnerImports,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-auth-layout>
       <form (submit)="login($event)">

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucidePanda } from '@ng-icons/lucide';
@@ -8,7 +8,6 @@ import { HlmButtonImports } from '@spartan-ng/helm/button';
   selector: 'app-auth-layout',
   imports: [RouterLink, NgIcon, HlmButtonImports],
   providers: [provideIcons({ lucidePanda })],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="grid min-h-svh lg:grid-cols-2">
       <div class="flex flex-col gap-4 p-6 md:p-10">

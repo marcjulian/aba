@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideShieldOff } from '@ng-icons/lucide';
@@ -16,7 +16,6 @@ import { DashboardLayout } from '../layouts/dashboard.layout';
     NgIcon,
   ],
   providers: [provideIcons({ lucideShieldOff })],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-dashboard-layout>
       <hlm-empty class="min-h-[50vh]">
