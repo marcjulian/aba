@@ -37,7 +37,6 @@ export const appRoutes: Route[] = [
   },
   {
     path: '**',
-    loadComponent: () =>
-      import('./pages/404.page').then((m) => m.NotFoundPage),
+    loadComponent: () => import('./pages/404.page').then((m) => m.NotFoundPage),
   },
 ];
