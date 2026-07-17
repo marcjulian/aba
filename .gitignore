@@ -48,3 +48,5 @@ Thumbs.db
 __screenshots__/
 
 .env
+
+.nx/migrate-runs

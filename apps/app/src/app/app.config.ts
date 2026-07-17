@@ -1,17 +1,10 @@
-import {
-  provideHttpClient,
-  withFetch,
-  withInterceptors,
-} from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import {
   ApplicationConfig,
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import {
-  provideClientHydration,
-  withEventReplay,
-} from '@angular/platform-browser';
+import { provideClientHydration } from '@angular/platform-browser';
 import {
   provideRouter,
   withComponentInputBinding,
@@ -25,7 +18,7 @@ import { cookiesInterceptor } from './auth/cookies.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideClientHydration(withEventReplay()),
+    provideClientHydration(),
     provideBrowserGlobalErrorListeners(),
     provideRouter(
       appRoutes,
@@ -35,7 +28,7 @@ export const appConfig: ApplicationConfig = {
         scrollPositionRestoration: 'enabled',
       }),
     ),
-    provideHttpClient(withFetch(), withInterceptors([cookiesInterceptor])),
+    provideHttpClient(withInterceptors([cookiesInterceptor])),
     provideSpartanHlm(),
     // used to prevent flicker while better auth state is being loaded on app start, by waiting for first non pending session state before app initialization is completed
     provideAppInitializer(() => {
