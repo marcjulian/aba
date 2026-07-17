@@ -83,7 +83,9 @@ import { AuthLayout } from '../../layouts/auth.layout';
             </button>
             <p hlmFieldDescription class="text-center">
               Don't have an account?
-              <a routerLink="/register">Sign up</a>
+              <a routerLink="/register" queryParamsHandling="preserve">
+                Sign up
+              </a>
             </p>
           </hlm-field>
         </hlm-field-group>

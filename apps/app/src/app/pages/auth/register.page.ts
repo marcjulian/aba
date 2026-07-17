@@ -140,7 +140,7 @@ import { AuthLayout } from '../../layouts/auth.layout';
 
             <p hlmFieldDescription class="text-center">
               Already have an account?
-              <a routerLink="/login">Sign in</a>
+              <a routerLink="/login" queryParamsHandling="preserve">Sign in</a>
             </p>
           </hlm-field>
         </hlm-field-group>
