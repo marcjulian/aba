@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  input,
-  signal,
-} from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 import {
   email,
   form,
@@ -36,7 +30,6 @@ import { AuthLayout } from '../../layouts/auth.layout';
     HlmInputImports,
     HlmSpinnerImports,
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-auth-layout>
       <form (submit)="signup($event)">
@@ -147,7 +140,7 @@ import { AuthLayout } from '../../layouts/auth.layout';
 
             <p hlmFieldDescription class="text-center">
               Already have an account?
-              <a routerLink="/login">Sign in</a>
+              <a routerLink="/login" queryParamsHandling="preserve">Sign in</a>
             </p>
           </hlm-field>
         </hlm-field-group>

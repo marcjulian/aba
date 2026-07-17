@@ -26,7 +26,12 @@
       "@spartan-ng/helm/sonner": ["./libs/ui/sonner/src/index.ts"],
       "@spartan-ng/helm/spinner": ["./libs/ui/spinner/src/index.ts"],
       "@spartan-ng/helm/utils": ["./libs/ui/utils/src/index.ts"]
-    }
+    },
+    "strict": false,
+    "noUncheckedSideEffectImports": false,
+    "types": ["*"],
+    "esModuleInterop": false,
+    "ignoreDeprecations": "6.0"
   },
   "exclude": ["node_modules", "tmp"]
 }

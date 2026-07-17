@@ -1,5 +1,5 @@
 import { httpResource } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { injectAuthUser } from '../auth/auth-client';
 import { BaseLayout } from '../layouts/base.layout';
@@ -7,7 +7,6 @@ import { BaseLayout } from '../layouts/base.layout';
 @Component({
   selector: 'app-home-page',
   imports: [BaseLayout],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-base-layout>
       <div class="mx-auto max-w-(--breakpoint-lg) px-4">

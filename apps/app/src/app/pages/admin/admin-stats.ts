@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, resource } from '@angular/core';
+import { Component, resource } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   lucideTrendingDown,
@@ -27,7 +27,6 @@ export interface AdminStatsData {
       lucideTrendingDown,
     }),
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (stats.value(); as s) {
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">

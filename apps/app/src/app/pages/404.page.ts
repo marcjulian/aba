@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmEmptyImports } from '@spartan-ng/helm/empty';
@@ -7,7 +7,6 @@ import { BaseLayout } from '../layouts/base.layout';
 @Component({
   selector: 'app-not-found',
   imports: [BaseLayout, HlmEmptyImports, RouterLink, HlmButtonImports],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <app-base-layout>
       <hlm-empty class="min-h-[50vh]">
