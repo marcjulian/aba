@@ -2,8 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { RouterStateSnapshot, TitleStrategy } from '@angular/router';
 import { Seo } from './seo';
-import { injectSeoConfig } from './seo.types';
 import type { SeoConfig } from './seo.types';
+import { injectSeoConfig } from './seo.types';
 
 @Injectable()
 export class AppTitleStrategy extends TitleStrategy {
