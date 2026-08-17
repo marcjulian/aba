@@ -1,6 +1,7 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import {
   ApplicationConfig,
+  isDevMode,
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
@@ -11,10 +12,17 @@ import {
   withInMemoryScrolling,
 } from '@angular/router';
 import { provideSpartanHlm } from '@spartan-ng/helm/utils';
+import { provideTanStackDevtools } from '@tanstack/angular-devtools/provider';
+import {
+  QueryClient,
+  provideTanStackQuery,
+} from '@tanstack/angular-query-experimental';
+import { TableDevtoolsPanel } from '@tanstack/angular-table-devtools';
 import { filter, first } from 'rxjs';
 import { appRoutes } from './app.routes';
 import { injectAuthClient } from './auth/auth-client';
 import { cookiesInterceptor } from './auth/cookies.interceptor';
+import { queryDevtoolsPanel } from './tools/query-devtools';
 import { provideSeo } from './tools/seo.types';
 import { provideTitleStrategy } from './tools/title.strategy';
 
@@ -31,6 +39,21 @@ export const appConfig: ApplicationConfig = {
       }),
     ),
     provideHttpClient(withInterceptors([cookiesInterceptor])),
+    provideTanStackQuery(new QueryClient()),
+    isDevMode()
+      ? provideTanStackDevtools(() => ({
+          plugins: [
+            {
+              name: 'TanStack Table',
+              render: TableDevtoolsPanel,
+            },
+            {
+              name: 'TanStack Query',
+              render: () => queryDevtoolsPanel,
+            },
+          ],
+        }))
+      : [],
     provideSpartanHlm(),
     provideSeo({
       title: 'aba - Angular Better Auth',
