@@ -5,10 +5,17 @@ import { lucidePanda, lucideUsers2 } from '@ng-icons/lucide';
 import { HlmSidebarImports } from '@spartan-ng/helm/sidebar';
 import { injectIsAdmin } from '../auth/auth-client';
 import { DashboardHeader } from './dashboard-header';
+import { ImpersonationBanner } from './impersonation-banner';
 
 @Component({
   selector: 'app-dashboard-layout',
-  imports: [HlmSidebarImports, RouterLink, NgIcon, DashboardHeader],
+  imports: [
+    HlmSidebarImports,
+    RouterLink,
+    NgIcon,
+    DashboardHeader,
+    ImpersonationBanner,
+  ],
   providers: [provideIcons({ lucidePanda, lucideUsers2 })],
   template: `
     <div hlmSidebarWrapper>
@@ -41,6 +48,7 @@ import { DashboardHeader } from './dashboard-header';
       </hlm-sidebar>
       <main hlmSidebarInset>
         <app-dashboard-header [title]="title()" />
+        <app-impersonation-banner />
         <ng-content />
       </main>
     </div>

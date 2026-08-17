@@ -24,6 +24,11 @@ export const injectIsAdmin = () => {
   return computed(() => user()?.role === 'admin');
 };
 
+export const injectIsImpersonating = () => {
+  const session = injectAuthSession();
+  return computed(() => !!session().data?.session.impersonatedBy);
+};
+
 export const injectLogout = () => {
   const auth = injectAuthClient();
   const router = inject(Router);

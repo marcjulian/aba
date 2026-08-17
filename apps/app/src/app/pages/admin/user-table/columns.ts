@@ -1,6 +1,7 @@
 import { createColumnHelper } from '@tanstack/angular-table';
 import type { UserWithRole } from 'better-auth/plugins/admin';
 import { TableHeadSortButton } from './sort-header-button';
+import { UserActionDropdown } from './user-action-dropdown';
 import { UserRoleBadge } from './user-role-badge';
 import type { UserTableFeatures } from './user-table-features';
 import { UserVerifiedBadge } from './user-verified-badge';
@@ -41,5 +42,8 @@ export const userColumns = columnHelper.columns([
     header: () => TableHeadSortButton,
     cell: (info) => dateTimeFormatter.format(info.getValue()),
   }),
-  // TODO actions dropdown menu (impersonate, delete)
+  columnHelper.display({
+    id: 'actions',
+    cell: () => UserActionDropdown,
+  }),
 ]);
