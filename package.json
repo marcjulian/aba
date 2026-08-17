@@ -7,7 +7,7 @@
     "build": "nx run-many -t build -p app api --configuration=production",
     "fmt": "prettier --write ."
   },
-  "packageManager": "pnpm@11.9.0",
+  "packageManager": "pnpm@11.22.0",
   "dependencies": {
     "@angular-devkit/build-angular": "22.0.7",
     "@angular/cdk": "22.0.5",
