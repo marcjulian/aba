@@ -1,30 +1,19 @@
-import { Component, computed } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { NgIcon, provideIcons } from '@ng-icons/core';
-import { lucidePanda } from '@ng-icons/lucide';
+import { Component, input } from '@angular/core';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
-import { injectAuthUser, injectLogout } from '../auth/auth-client';
+import { HlmSidebarImports } from '@spartan-ng/helm/sidebar';
+import { injectLogout } from '../auth/auth-client';
 
 @Component({
   selector: 'app-dashboard-header',
-  imports: [RouterLink, HlmButtonImports, NgIcon],
-  providers: [provideIcons({ lucidePanda })],
+  imports: [HlmSidebarImports, HlmButtonImports],
   template: `
     <header
-      class="bg-background/40 sticky top-0 z-10 flex h-(--header-height) items-center gap-2 px-4 backdrop-blur-lg"
+      class="sticky top-0 z-10 flex h-(--header-height) items-center gap-2 px-4"
     >
-      <a routerLink="/" hlmBtn variant="ghost" size="sm">
-        <ng-icon name="lucidePanda" />
-        aba
-      </a>
-
-      <!-- <nav>
-      </nav> -->
+      <button hlmSidebarTrigger></button>
+      <span class="text-semibold text-lg">{{ title() }}</span>
 
       <div class="ml-auto flex gap-1">
-        @if (isAdmin()) {
-          <a routerLink="/admin" hlmBtn variant="outline" size="sm">Admin</a>
-        }
         <button hlmBtn variant="outline" size="sm" (click)="logout()">
           Logout
         </button>
@@ -34,7 +23,6 @@ import { injectAuthUser, injectLogout } from '../auth/auth-client';
 })
 export class DashboardHeader {
   readonly logout = injectLogout();
-  readonly user = injectAuthUser();
 
-  isAdmin = computed(() => this.user()?.role === 'admin');
+  title = input<string>();
 }

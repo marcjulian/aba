@@ -7,9 +7,11 @@ import { UserTable } from './user-table/user-table';
   selector: 'app-admin',
   imports: [DashboardLayout, AdminStats, UserTable],
   template: `
-    <app-dashboard-layout>
-      <app-admin-stats class="px-4 pt-4" />
-      <app-user-table [q]="q()" [sort]="sort()" />
+    <app-dashboard-layout title="Admin">
+      <div class="flex flex-col gap-4 px-4 pt-4">
+        <app-admin-stats />
+        <app-user-table [q]="q()" [sort]="sort()" />
+      </div>
     </app-dashboard-layout>
   `,
 })

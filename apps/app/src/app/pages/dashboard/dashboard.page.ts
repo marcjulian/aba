@@ -12,9 +12,8 @@ import { injectTrpc } from '../../trpc/trpc.service';
   imports: [DashboardLayout, HlmCardImports, HlmBadgeImports, NgIcon],
   providers: [provideIcons({ lucideCircleCheck, lucideCircleX })],
   template: `
-    <app-dashboard-layout>
-      <h1 class="text-4xl font-semibold">Dashboard</h1>
-      <div class="grid grid-cols-1 gap-4 pt-4 md:grid-cols-2">
+    <app-dashboard-layout title="Dashboard">
+      <div class="grid grid-cols-1 gap-4 px-4 pt-4 md:grid-cols-2">
         <hlm-card>
           @let authUser = user();
           <hlm-card-header>

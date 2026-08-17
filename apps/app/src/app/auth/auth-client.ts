@@ -19,6 +19,11 @@ export const injectAuthUser = () => {
   return computed(() => session().data?.user || null);
 };
 
+export const injectIsAdmin = () => {
+  const user = injectAuthUser();
+  return computed(() => user()?.role === 'admin');
+};
+
 export const injectLogout = () => {
   const auth = injectAuthClient();
   const router = inject(Router);

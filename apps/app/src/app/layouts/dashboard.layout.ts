@@ -1,15 +1,53 @@
-import { Component } from '@angular/core';
-import { HlmButtonImports } from '@spartan-ng/helm/button';
+import { Component, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { NgIcon, provideIcons } from '@ng-icons/core';
+import { lucidePanda, lucideUsers2 } from '@ng-icons/lucide';
+import { HlmSidebarImports } from '@spartan-ng/helm/sidebar';
+import { injectIsAdmin } from '../auth/auth-client';
 import { DashboardHeader } from './dashboard-header';
 
 @Component({
   selector: 'app-dashboard-layout',
-  imports: [HlmButtonImports, DashboardHeader],
+  imports: [HlmSidebarImports, RouterLink, NgIcon, DashboardHeader],
+  providers: [provideIcons({ lucidePanda, lucideUsers2 })],
   template: `
-    <app-dashboard-header />
-    <main class="mx-auto max-w-(--breakpoint-lg) px-4">
-      <ng-content />
-    </main>
+    <div hlmSidebarWrapper>
+      <hlm-sidebar variant="inset">
+        <hlm-sidebar-header>
+          <ul hlmSidebarMenu>
+            <li hlmSidebarMenuItem>
+              <a hlmSidebarMenuButton size="lg" routerLink="/dashboard">
+                <ng-icon name="lucidePanda" class="text-base" />
+                <span>aba</span>
+              </a>
+            </li>
+          </ul>
+        </hlm-sidebar-header>
+        <hlm-sidebar-content>
+          @if (isAdmin()) {
+            <hlm-sidebar-group>
+              <div hlmSidebarGroupLabel>Admin</div>
+              <ul hlmSidebarMenu>
+                <li hlmSidebarMenuItem>
+                  <a hlmSidebarMenuSubButton routerLink="/admin">
+                    <ng-icon name="lucideUsers2" />
+                    Users
+                  </a>
+                </li>
+              </ul>
+            </hlm-sidebar-group>
+          }
+        </hlm-sidebar-content>
+      </hlm-sidebar>
+      <main hlmSidebarInset>
+        <app-dashboard-header [title]="title()" />
+        <ng-content />
+      </main>
+    </div>
   `,
 })
-export class DashboardLayout {}
+export class DashboardLayout {
+  readonly isAdmin = injectIsAdmin();
+
+  readonly title = input<string>();
+}
