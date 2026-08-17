@@ -3,7 +3,7 @@ import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideCircleCheck, lucideCircleX } from '@ng-icons/lucide';
 import { HlmBadgeImports } from '@spartan-ng/helm/badge';
 import type { Row } from '@tanstack/angular-table';
-import type { User } from 'better-auth';
+import type { UserWithRole } from 'better-auth/plugins/admin';
 import type { UserTableFeatures } from './user-table-features';
 
 @Component({
@@ -23,5 +23,5 @@ import type { UserTableFeatures } from './user-table-features';
   `,
 })
 export class UserVerifiedBadge {
-  readonly row = input.required<Row<UserTableFeatures, User>>();
+  readonly row = input.required<Row<UserTableFeatures, UserWithRole>>();
 }

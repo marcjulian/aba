@@ -7,7 +7,7 @@ import {
 } from '@ng-icons/lucide';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { type Column } from '@tanstack/angular-table';
-import type { User } from 'better-auth';
+import type { UserWithRole } from 'better-auth/plugins/admin';
 import type { UserTableFeatures } from './user-table-features';
 
 @Component({
@@ -36,7 +36,7 @@ import type { UserTableFeatures } from './user-table-features';
 })
 export class TableHeadSortButton {
   public readonly column =
-    input.required<Column<UserTableFeatures, User, unknown>>();
+    input.required<Column<UserTableFeatures, UserWithRole, unknown>>();
 
   protected filterClick() {
     this.column().toggleSorting();
