@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { lucideUserRound, lucideShieldCheck } from '@ng-icons/lucide';
+import { lucideShieldCheck, lucideUserRound } from '@ng-icons/lucide';
 import { HlmBadgeImports } from '@spartan-ng/helm/badge';
 import type { Row } from '@tanstack/angular-table';
 import type { UserWithRole } from 'better-auth/plugins/admin';
