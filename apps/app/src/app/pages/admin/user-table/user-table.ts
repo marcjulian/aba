@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideSearch, lucideX } from '@ng-icons/lucide';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
+import { HlmEmptyImports } from '@spartan-ng/helm/empty';
 import { HlmInputGroupImports } from '@spartan-ng/helm/input-group';
 import { HlmTableImports } from '@spartan-ng/helm/table';
 import {
@@ -22,6 +23,7 @@ import {
   isFunction,
   SortingState,
 } from '@tanstack/angular-table';
+import { injectTanStackTableDevtools } from '@tanstack/angular-table-devtools';
 import { injectAuthClient } from '../../../auth/auth-client';
 import { parseSort, serializeSort } from '../../../tools/table/sort';
 import { userColumns } from './columns';
@@ -34,6 +36,7 @@ import { userTableFeatures } from './user-table-features';
     HlmInputGroupImports,
     HlmTableImports,
     FlexRender,
+    HlmEmptyImports,
     NgIcon,
   ],
   providers: [provideIcons({ lucideSearch, lucideX })],
@@ -111,11 +114,39 @@ import { userTableFeatures } from './user-table-features';
               </tr>
             } @empty {
               <tr hlmTr>
-                <!-- <td hlmTd class="h-24 text-center" [attr.colspan]="_columns.length">No results.</td> -->
+                <td
+                  hlmTd
+                  class="h-24 text-center"
+                  [attr.colspan]="_columns.length"
+                >
+                  <hlm-empty class="border-0 py-10">
+                    <hlm-empty-header>
+                      <hlm-empty-media variant="icon">
+                        <ng-icon name="lucideUsers" />
+                      </hlm-empty-media>
+                      <div hlmEmptyTitle>No users found</div>
+                      <p hlmEmptyDescription>Try adjusting your search.</p>
+                    </hlm-empty-header>
+                    @if (q()) {
+                      <hlm-empty-content>
+                        <button
+                          hlmBtn
+                          variant="outline"
+                          size="sm"
+                          type="button"
+                          (click)="onResetSearch()"
+                        >
+                          Clear search
+                        </button>
+                      </hlm-empty-content>
+                    }
+                  </hlm-empty>
+                </td>
               </tr>
             }
           </tbody>
         </table>
+        <!-- TODO add pagination -->
       </div>
     </div>
   `,
@@ -123,6 +154,8 @@ import { userTableFeatures } from './user-table-features';
 export class UserTable {
   private readonly authClient = injectAuthClient();
   private readonly router = inject(Router);
+
+  readonly _columns = userColumns;
 
   readonly sort = input<SortingState, string>([], { transform: parseSort });
   readonly q = input<string, string | undefined>('', {
@@ -141,6 +174,10 @@ export class UserTable {
         replaceUrl: true,
       });
     });
+
+    injectTanStackTableDevtools(() => ({
+      table: this._table,
+    }));
   }
 
   protected onSearchInput(event: Event): void {
