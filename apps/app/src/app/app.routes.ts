@@ -21,38 +21,43 @@ export const appRoutes: Route[] = [
     canActivate: [redirectLoggedInGuard],
   },
   {
-    path: 'dashboard',
+    path: '',
     loadComponent: () =>
-      import('./pages/dashboard/dashboard.page').then((m) => m.DashboardPage),
-    title: 'Dashboard',
+      import('./layouts/dashboard.layout').then((m) => m.DashboardLayout),
     canActivate: [authGuard()],
-  },
-  {
-    path: 'admin',
-
-    title: 'Admin',
-    canActivate: [authGuard('admin')],
     children: [
       {
-        path: '',
-        pathMatch: 'prefix',
-        redirectTo: 'users',
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./pages/dashboard/dashboard.page').then((m) => m.DashboardPage),
+        title: 'Dashboard',
       },
       {
-        path: 'users',
+        path: 'admin',
+        canActivate: [authGuard('admin')],
+        children: [
+          {
+            path: '',
+            pathMatch: 'prefix',
+            redirectTo: 'users',
+          },
+          {
+            path: 'users',
+            loadComponent: () =>
+              import('./pages/admin/admin-users.page').then(
+                (m) => m.AdminUsersPage,
+              ),
+            title: 'Users',
+          },
+        ],
+      },
+      {
+        path: 'forbidden',
         loadComponent: () =>
-          import('./pages/admin/admin-users.page').then(
-            (m) => m.AdminUsersPage,
-          ),
+          import('./pages/forbidden.page').then((m) => m.ForbiddenPage),
+        title: 'Forbidden',
       },
     ],
-  },
-  {
-    path: 'forbidden',
-    loadComponent: () =>
-      import('./pages/forbidden.page').then((m) => m.ForbiddenPage),
-    title: 'Forbidden',
-    canActivate: [authGuard()],
   },
   {
     path: '**',

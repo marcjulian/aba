@@ -1,5 +1,12 @@
-import { Component, input } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterLink,
+  RouterOutlet,
+} from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   lucideLayoutDashboard,
@@ -7,6 +14,7 @@ import {
   lucideUsers2,
 } from '@ng-icons/lucide';
 import { HlmSidebarImports } from '@spartan-ng/helm/sidebar';
+import { filter, map } from 'rxjs';
 import { injectIsAdmin } from '../auth/auth-client';
 import { DashboardHeader } from './dashboard-header';
 import { ImpersonationBanner } from './impersonation-banner';
@@ -14,6 +22,7 @@ import { ImpersonationBanner } from './impersonation-banner';
 @Component({
   selector: 'app-dashboard-layout',
   imports: [
+    RouterOutlet,
     HlmSidebarImports,
     RouterLink,
     NgIcon,
@@ -65,13 +74,28 @@ import { ImpersonationBanner } from './impersonation-banner';
       <main hlmSidebarInset>
         <app-dashboard-header [title]="title()" />
         <app-impersonation-banner />
-        <ng-content />
+        <router-outlet />
       </main>
     </div>
   `,
 })
 export class DashboardLayout {
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+
   readonly isAdmin = injectIsAdmin();
 
-  readonly title = input<string>();
+  readonly title = toSignal(
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      map(() => this.getLeafTitle()),
+    ),
+    { initialValue: this.getLeafTitle() },
+  );
+
+  private getLeafTitle(): string | undefined {
+    let route = this.route;
+    while (route.firstChild) route = route.firstChild;
+    return route.snapshot?.title ?? undefined;
+  }
 }
