@@ -1,7 +1,11 @@
 import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import { lucidePanda, lucideUsers2 } from '@ng-icons/lucide';
+import {
+  lucideLayoutDashboard,
+  lucidePanda,
+  lucideUsers2,
+} from '@ng-icons/lucide';
 import { HlmSidebarImports } from '@spartan-ng/helm/sidebar';
 import { injectIsAdmin } from '../auth/auth-client';
 import { DashboardHeader } from './dashboard-header';
@@ -16,7 +20,9 @@ import { ImpersonationBanner } from './impersonation-banner';
     DashboardHeader,
     ImpersonationBanner,
   ],
-  providers: [provideIcons({ lucidePanda, lucideUsers2 })],
+  providers: [
+    provideIcons({ lucidePanda, lucideUsers2, lucideLayoutDashboard }),
+  ],
   template: `
     <div hlmSidebarWrapper>
       <hlm-sidebar variant="inset">
@@ -31,12 +37,22 @@ import { ImpersonationBanner } from './impersonation-banner';
           </ul>
         </hlm-sidebar-header>
         <hlm-sidebar-content>
+          <hlm-sidebar-group>
+            <ul hlmSidebarMenu>
+              <li hlmSidebarMenuItem>
+                <a hlmSidebarMenuSubButton routerLink="/dashboard">
+                  <ng-icon name="lucideLayoutDashboard" />
+                  Dashboard
+                </a>
+              </li>
+            </ul>
+          </hlm-sidebar-group>
           @if (isAdmin()) {
             <hlm-sidebar-group>
               <div hlmSidebarGroupLabel>Admin</div>
               <ul hlmSidebarMenu>
                 <li hlmSidebarMenuItem>
-                  <a hlmSidebarMenuSubButton routerLink="/admin">
+                  <a hlmSidebarMenuSubButton routerLink="/admin/users">
                     <ng-icon name="lucideUsers2" />
                     Users
                   </a>

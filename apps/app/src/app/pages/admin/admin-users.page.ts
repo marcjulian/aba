@@ -4,7 +4,7 @@ import { AdminStats } from './admin-stats';
 import { UserTable } from './user-table/user-table';
 
 @Component({
-  selector: 'app-admin',
+  selector: 'app-admin-users',
   imports: [DashboardLayout, AdminStats, UserTable],
   template: `
     <app-dashboard-layout title="Users">
@@ -15,7 +15,7 @@ import { UserTable } from './user-table/user-table';
     </app-dashboard-layout>
   `,
 })
-export class AdminPage {
+export class AdminUsersPage {
   readonly sort = input<string>('');
   readonly q = input<string>('');
 }

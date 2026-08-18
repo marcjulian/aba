@@ -29,10 +29,23 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'admin',
-    loadComponent: () =>
-      import('./pages/admin/admin.page').then((m) => m.AdminPage),
+
     title: 'Admin',
     canActivate: [authGuard('admin')],
+    children: [
+      {
+        path: '',
+        pathMatch: 'prefix',
+        redirectTo: 'users',
+      },
+      {
+        path: 'users',
+        loadComponent: () =>
+          import('./pages/admin/admin-users.page').then(
+            (m) => m.AdminUsersPage,
+          ),
+      },
+    ],
   },
   {
     path: 'forbidden',
