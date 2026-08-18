@@ -165,29 +165,6 @@ export class UserTable {
   protected readonly query = linkedSignal(this.q);
   private readonly debouncedQuery = debounced(this.query, 300);
 
-  constructor() {
-    effect(() => {
-      const value = this.debouncedQuery.value();
-      this.router.navigate([], {
-        queryParams: { q: value?.trim() || undefined },
-        queryParamsHandling: 'merge',
-        replaceUrl: true,
-      });
-    });
-
-    injectTanStackTableDevtools(() => ({
-      table: this._table,
-    }));
-  }
-
-  protected onSearchInput(event: Event): void {
-    this.query.set((event.target as HTMLInputElement).value);
-  }
-
-  protected onResetSearch(): void {
-    this.query.set('');
-  }
-
   private readonly usersQuery = injectQuery(() => ({
     queryKey: ['users', this.sort(), this.q()],
     queryFn: () => {
@@ -212,6 +189,7 @@ export class UserTable {
   }));
 
   protected readonly _table = injectTable(() => ({
+    key: 'users-table',
     features: userTableFeatures,
     columns: userColumns,
     data: this.usersQuery.data()?.data?.users ?? [],
@@ -229,4 +207,27 @@ export class UserTable {
       });
     },
   }));
+
+  constructor() {
+    effect(() => {
+      const value = this.debouncedQuery.value();
+      this.router.navigate([], {
+        queryParams: { q: value?.trim() || undefined },
+        queryParamsHandling: 'merge',
+        replaceUrl: true,
+      });
+    });
+
+    injectTanStackTableDevtools(() => ({
+      table: this._table,
+    }));
+  }
+
+  protected onSearchInput(event: Event): void {
+    this.query.set((event.target as HTMLInputElement).value);
+  }
+
+  protected onResetSearch(): void {
+    this.query.set('');
+  }
 }
