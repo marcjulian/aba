@@ -1,3 +1,4 @@
+import { NumberInput } from '@angular/cdk/coercion';
 import {
   Component,
   debounced,
@@ -250,11 +251,11 @@ export class UserTable {
 
   protected readonly _availablePageSizes = [10, 20, 50, 100];
 
-  readonly page = input(1, {
+  readonly page = input<number, NumberInput>(1, {
     transform: (value) => numberAttribute(value, 1),
   });
-  readonly size = input(2, {
-    transform: (value) => numberAttribute(value, 2),
+  readonly size = input<number, NumberInput>(20, {
+    transform: (value) => numberAttribute(value, 20),
   });
 
   readonly pagination = linkedSignal<PaginationState>(() => {
