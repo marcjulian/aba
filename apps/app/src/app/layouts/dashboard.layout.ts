@@ -34,13 +34,17 @@ import { ImpersonationBanner } from './impersonation-banner';
   ],
   template: `
     <div hlmSidebarWrapper>
-      <hlm-sidebar variant="inset">
+      <hlm-sidebar variant="inset" collapsible="icon">
         <hlm-sidebar-header>
           <ul hlmSidebarMenu>
             <li hlmSidebarMenuItem>
               <a hlmSidebarMenuButton size="lg" routerLink="/dashboard">
-                <ng-icon name="lucidePanda" class="text-base" />
-                <span>aba</span>
+                <div
+                  class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg"
+                >
+                  <ng-icon name="lucidePanda" class="text-base" />
+                </div>
+                <div class="flex-1 text-left text-sm leading-tight">aba</div>
               </a>
             </li>
           </ul>
@@ -50,7 +54,7 @@ import { ImpersonationBanner } from './impersonation-banner';
             <ul hlmSidebarMenu>
               <li hlmSidebarMenuItem>
                 <a
-                  hlmSidebarMenuSubButton
+                  hlmSidebarMenuButton
                   routerLink="/dashboard"
                   [isActive]="currentPath() === '/dashboard'"
                 >
@@ -66,7 +70,7 @@ import { ImpersonationBanner } from './impersonation-banner';
               <ul hlmSidebarMenu>
                 <li hlmSidebarMenuItem>
                   <a
-                    hlmSidebarMenuSubButton
+                    hlmSidebarMenuButton
                     routerLink="/admin/users"
                     [isActive]="currentPath() === '/admin/users'"
                   >
