@@ -1,6 +1,7 @@
 import { NumberInput } from '@angular/cdk/coercion';
 import {
   Component,
+  computed,
   debounced,
   effect,
   inject,
@@ -10,20 +11,10 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
-import {
-  lucideChevronLeft,
-  lucideChevronRight,
-  lucideChevronsLeft,
-  lucideChevronsRight,
-  lucideSearch,
-  lucideUsers,
-  lucideX,
-} from '@ng-icons/lucide';
+import { lucideSearch, lucideUsers, lucideX } from '@ng-icons/lucide';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmEmptyImports } from '@spartan-ng/helm/empty';
 import { HlmInputGroupImports } from '@spartan-ng/helm/input-group';
-import { HlmLabel } from '@spartan-ng/helm/label';
-import { HlmSelectImports } from '@spartan-ng/helm/select';
 import { HlmTableImports } from '@spartan-ng/helm/table';
 import {
   injectQuery,
@@ -35,10 +26,12 @@ import {
   isFunction,
   PaginationState,
   SortingState,
+  TanStackTable,
 } from '@tanstack/angular-table';
 import { injectTanStackTableDevtools } from '@tanstack/angular-table-devtools';
 import { injectAuthClient } from '../../../auth/auth-client';
 import { parseSort, serializeSort } from '../../../tools/table/sort';
+import { TablePaginaton } from '../../../ui/table/pagination';
 import { userColumns } from './columns';
 import { userTableFeatures } from './user-table-features';
 
@@ -50,19 +43,15 @@ import { userTableFeatures } from './user-table-features';
     HlmTableImports,
     FlexRender,
     HlmEmptyImports,
-    HlmSelectImports,
-    HlmLabel,
+    TanStackTable,
     NgIcon,
+    TablePaginaton,
   ],
   providers: [
     provideIcons({
       lucideSearch,
       lucideX,
       lucideUsers,
-      lucideChevronsLeft,
-      lucideChevronLeft,
-      lucideChevronRight,
-      lucideChevronsRight,
     }),
   ],
   host: { class: 'flex flex-col gap-3' },
@@ -72,7 +61,7 @@ import { userTableFeatures } from './user-table-features';
         <input
           hlmInputGroupInput
           placeholder="Search by email..."
-          [value]="query()"
+          [value]="inputValue()"
           (input)="onSearchInput($event)"
         />
         <hlm-input-group-addon>
@@ -173,73 +162,8 @@ import { userTableFeatures } from './user-table-features';
         </table>
       </div>
     </div>
-    <div class="ml-auto flex items-center gap-4">
-      <div class="flex gap-2">
-        <span hlmLabel>Rows per page</span>
-        <hlm-select
-          [value]="_table.atoms.pagination.get().pageSize"
-          (valueChange)="changePageSize($event)"
-        >
-          <hlm-select-trigger size="sm" class="mr-1 inline-flex h-8 w-fit">
-            <hlm-select-value placeholder="{{ _availablePageSizes[0] }}" />
-          </hlm-select-trigger>
-          <hlm-select-content *hlmSelectPortal>
-            <hlm-select-group>
-              @for (size of _availablePageSizes; track size) {
-                <hlm-select-item [value]="size">
-                  {{ size === 10000 ? 'All' : size }}
-                </hlm-select-item>
-              }
-            </hlm-select-group>
-          </hlm-select-content>
-        </hlm-select>
-      </div>
-      <span hlmLabel>
-        Page {{ _table.atoms.pagination.get().pageIndex + 1 }} of
-        {{ _table.getPageCount() }}
-      </span>
-      <div class="flex gap-2">
-        <button
-          hlmBtn
-          size="icon-sm"
-          variant="outline"
-          [disabled]="!_table.getCanPreviousPage()"
-          (click)="_table.firstPage()"
-        >
-          <span class="sr-only">First page</span>
-          <ng-icon name="lucideChevronsLeft" />
-        </button>
-        <button
-          hlmBtn
-          size="icon-sm"
-          variant="outline"
-          [disabled]="!_table.getCanPreviousPage()"
-          (click)="_table.previousPage()"
-        >
-          <span class="sr-only">Previous page</span>
-          <ng-icon name="lucideChevronLeft" />
-        </button>
-        <button
-          hlmBtn
-          size="icon-sm"
-          variant="outline"
-          [disabled]="!_table.getCanNextPage()"
-          (click)="_table.nextPage()"
-        >
-          <span class="sr-only">Next page</span>
-          <ng-icon name="lucideChevronRight" />
-        </button>
-        <button
-          hlmBtn
-          size="icon-sm"
-          variant="outline"
-          [disabled]="!_table.getCanNextPage()"
-          (click)="_table.lastPage()"
-        >
-          <span class="sr-only">Last page</span>
-          <ng-icon name="lucideChevronsRight" />
-        </button>
-      </div>
+    <div [tanStackTable]="_table">
+      <app-table-pagination />
     </div>
   `,
 })
@@ -258,7 +182,7 @@ export class UserTable {
     transform: (value) => numberAttribute(value, 20),
   });
 
-  readonly pagination = linkedSignal<PaginationState>(() => {
+  private readonly pagination = computed<PaginationState>(() => {
     const page = this.page();
     return {
       pageIndex: page - 1,
@@ -267,18 +191,18 @@ export class UserTable {
   });
 
   readonly sort = input<SortingState, string>([], { transform: parseSort });
-  readonly q = input<string, string | undefined>('', {
-    transform: (value) => value ?? '',
-  });
+  readonly q = input<string | undefined>(undefined);
 
   protected readonly query = linkedSignal(this.q);
   private readonly debouncedQuery = debounced(this.query, 300);
+
+  protected readonly inputValue = computed(() => this.query() ?? '');
 
   private readonly usersQuery = injectQuery(() => ({
     queryKey: ['users', this.sort(), this.q(), this.pagination()],
     queryFn: async () => {
       const [sort] = this.sort();
-      const q = this.q().trim();
+      const q = this.q()?.trim();
       return this.authClient.admin.listUsers({
         query: {
           offset: this.pagination().pageIndex * this.pagination().pageSize,
@@ -334,9 +258,15 @@ export class UserTable {
 
   constructor() {
     effect(() => {
-      const value = this.debouncedQuery.value();
+      const value = this.debouncedQuery.value() ?? '';
+      const q = value.trim();
+
+      if (q === (this.q() ?? '').trim()) {
+        return;
+      }
+
       this.router.navigate([], {
-        queryParams: { q: value?.trim() || undefined, page: 1 },
+        queryParams: { q: q || undefined, page: 1 },
         queryParamsHandling: 'merge',
       });
     });
