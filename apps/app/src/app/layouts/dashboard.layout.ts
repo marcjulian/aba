@@ -49,7 +49,11 @@ import { ImpersonationBanner } from './impersonation-banner';
           <hlm-sidebar-group>
             <ul hlmSidebarMenu>
               <li hlmSidebarMenuItem>
-                <a hlmSidebarMenuSubButton routerLink="/dashboard">
+                <a
+                  hlmSidebarMenuSubButton
+                  routerLink="/dashboard"
+                  [isActive]="currentPath() === '/dashboard'"
+                >
                   <ng-icon name="lucideLayoutDashboard" />
                   Dashboard
                 </a>
@@ -61,7 +65,11 @@ import { ImpersonationBanner } from './impersonation-banner';
               <div hlmSidebarGroupLabel>Admin</div>
               <ul hlmSidebarMenu>
                 <li hlmSidebarMenuItem>
-                  <a hlmSidebarMenuSubButton routerLink="/admin/users">
+                  <a
+                    hlmSidebarMenuSubButton
+                    routerLink="/admin/users"
+                    [isActive]="currentPath() === '/admin/users'"
+                  >
                     <ng-icon name="lucideUsers2" />
                     Users
                   </a>
@@ -84,6 +92,14 @@ export class DashboardLayout {
   private readonly route = inject(ActivatedRoute);
 
   readonly isAdmin = injectIsAdmin();
+
+  readonly currentPath = toSignal(
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      map(() => this.router.url.split('?')[0]),
+    ),
+    { initialValue: this.router.url.split('?')[0] },
+  );
 
   readonly title = toSignal(
     this.router.events.pipe(
