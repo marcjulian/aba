@@ -1,4 +1,8 @@
-import { rowSortingFeature, tableFeatures } from '@tanstack/angular-table';
+import {
+  rowPaginationFeature,
+  rowSortingFeature,
+  tableFeatures,
+} from '@tanstack/angular-table';
 
 interface UserColumnMeta {
   label: string;
@@ -6,6 +10,7 @@ interface UserColumnMeta {
 
 export const userTableFeatures = tableFeatures({
   rowSortingFeature,
+  rowPaginationFeature,
   columnMeta: {} as UserColumnMeta,
 });
 
