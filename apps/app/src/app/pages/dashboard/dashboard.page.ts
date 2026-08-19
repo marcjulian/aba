@@ -54,9 +54,7 @@ import { injectTrpc } from '../../trpc/trpc.service';
                 ><ng-icon name="lucideCircleX" />Unverified</span
               >
             }
-            <span hlmBadge variant="outline">{{
-              meUser?.role ?? 'user'
-            }}</span>
+            <span hlmBadge variant="outline">{{ meUser?.role ?? 'user' }}</span>
           </div>
         </div>
       </hlm-card>

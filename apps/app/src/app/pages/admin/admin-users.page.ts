@@ -9,7 +9,12 @@ import { UserTable } from './user-table/user-table';
   template: `
     <div class="flex flex-col gap-4 px-4 pt-4">
       <app-admin-stats />
-      <app-user-table [q]="q()" [sort]="sort()" [page]="page()" [size]="size()" />
+      <app-user-table
+        [q]="q()"
+        [sort]="sort()"
+        [page]="page()"
+        [size]="size()"
+      />
     </div>
   `,
 })
@@ -22,5 +27,4 @@ export class AdminUsersPage {
   readonly size = input<number, NumberInput>(undefined, {
     transform: numberAttribute,
   });
-
 }
