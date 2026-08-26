@@ -245,7 +245,7 @@ export class UserTable {
       });
     },
     onRowSelectionChange: (updater) => {
-      updater instanceof Function
+      isFunction(updater)
         ? this.rowSelection.update(updater)
         : this.rowSelection.set(updater);
     },
