@@ -3,8 +3,8 @@ import type { UserWithRole } from 'better-auth/plugins/admin';
 import {
   TableHeadSelection,
   TableRowSelection,
-} from '../../../tools/table/selection-column';
-import { TableHeadSortButton } from './sort-header-button';
+} from '../../../ui/table/selection-column';
+import { TableHeadSortButton } from '../../../ui/table/sort-header-button';
 import { UserActionDropdown } from './user-action-dropdown';
 import { UserRoleBadge } from './user-role-badge';
 import type { UserTableFeatures } from './user-table-features';

@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import {
   lucideArrowDown,
@@ -6,9 +6,7 @@ import {
   lucideArrowUpDown,
 } from '@ng-icons/lucide';
 import { HlmButtonImports } from '@spartan-ng/helm/button';
-import { type Column } from '@tanstack/angular-table';
-import type { UserWithRole } from 'better-auth/plugins/admin';
-import type { UserTableFeatures } from './user-table-features';
+import { injectTableHeaderContext } from '@tanstack/angular-table';
 
 @Component({
   imports: [HlmButtonImports, NgIcon],
@@ -23,7 +21,7 @@ import type { UserTableFeatures } from './user-table-features';
       class="capitalize"
       (click)="filterClick()"
     >
-      {{ column().columnDef.meta?.label ?? column().id }}
+      {{ label() }}
       @if (column().getIsSorted() === 'asc') {
         <ng-icon name="lucideArrowUp" />
       } @else if (column().getIsSorted() === 'desc') {
@@ -35,8 +33,17 @@ import type { UserTableFeatures } from './user-table-features';
   `,
 })
 export class TableHeadSortButton {
-  public readonly column =
-    input.required<Column<UserTableFeatures, UserWithRole, unknown>>();
+  private readonly header = injectTableHeaderContext();
+
+  readonly column = computed(() => this.header().column);
+
+  protected readonly label = computed(() => {
+    const meta = this.column().columnDef.meta as
+      | Record<string, unknown>
+      | undefined;
+    const label = meta?.['label'] as string | undefined;
+    return label ?? this.column().id;
+  });
 
   protected filterClick() {
     this.column().toggleSorting();

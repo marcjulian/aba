@@ -20,7 +20,6 @@ import { HlmTableImports } from '@spartan-ng/helm/table';
 import {
   injectQuery,
   keepPreviousData,
-  QueryClient,
 } from '@tanstack/angular-query-experimental';
 import {
   FlexRender,
@@ -33,9 +32,10 @@ import {
 } from '@tanstack/angular-table';
 import { injectTanStackTableDevtools } from '@tanstack/angular-table-devtools';
 import { injectAuthClient } from '../../../auth/auth-client';
-import { TableSelectionActions } from '../../../tools/table/selection-actions';
 import { parseSort, serializeSort } from '../../../tools/table/sort';
 import { TablePaginaton } from '../../../ui/table/pagination';
+import { SearchInput } from '../../../ui/table/search-input';
+import { TableSelectionActions } from '../../../ui/table/selection-actions';
 import { userColumns } from './columns';
 import { userTableFeatures } from './user-table-features';
 
@@ -51,6 +51,7 @@ import { userTableFeatures } from './user-table-features';
     NgIcon,
     TableSelectionActions,
     TablePaginaton,
+    SearchInput,
   ],
   providers: [
     provideIcons({
@@ -64,29 +65,11 @@ import { userTableFeatures } from './user-table-features';
     <div
       class="flex flex-col justify-between gap-2 sm:flex-row sm:items-center"
     >
-      <hlm-input-group class="w-full sm:w-80">
-        <input
-          hlmInputGroupInput
-          placeholder="Search by email..."
-          [value]="inputValue()"
-          (input)="onSearchInput($event)"
-        />
-        <hlm-input-group-addon>
-          <ng-icon name="lucideSearch" />
-        </hlm-input-group-addon>
-        @if (q()) {
-          <hlm-input-group-addon align="inline-end">
-            <button
-              hlmInputGroupButton
-              aria-label="Clear search"
-              size="icon-xs"
-              (click)="onResetSearch()"
-            >
-              <ng-icon name="lucideX" />
-            </button>
-          </hlm-input-group-addon>
-        }
-      </hlm-input-group>
+      <app-search-input
+        [query]="inputValue()"
+        (queryChange)="query.set($event)"
+        (resetQuery)="query.set('')"
+      />
 
       @if (_table.getSelectedRowModel().rows.length; as rowLength) {
         <app-table-selection-actions
@@ -189,7 +172,6 @@ export class UserTable {
 
   protected readonly _availablePageSizes = [10, 20, 50, 100];
 
-  private readonly queryClient = inject(QueryClient);
   readonly page = input<number, NumberInput>(1, {
     transform: (value) => numberAttribute(value, 1),
   });
@@ -322,6 +304,6 @@ export class UserTable {
     }
 
     this.rowSelection.set({});
-    await this.queryClient.invalidateQueries({ queryKey: ['users'] });
+    await this.usersQuery.refetch();
   }
 }
