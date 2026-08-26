@@ -1,8 +1,9 @@
+import env from '#server/utils/env.ts';
 import { defineHandler } from 'nitro';
 import { noContent } from 'nitro/h3';
 
 export default defineHandler((event) => {
-  const allowedOrigins = [process.env['APP_URL']];
+  const allowedOrigins = [env.APP_URL];
 
   const origin = event.req.headers.get('origin');
 

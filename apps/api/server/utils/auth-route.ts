@@ -1,6 +1,7 @@
 import { auth } from './auth';
+import env from './env';
 
-const allowedOrigins = [process.env['APP_URL']];
+const allowedOrigins = [env['APP_URL']];
 
 export default {
   fetch: async (request: Request) => {
