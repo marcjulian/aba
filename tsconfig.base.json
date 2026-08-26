@@ -19,6 +19,7 @@
       "@spartan-ng/helm/badge": ["./libs/ui/badge/src/index.ts"],
       "@spartan-ng/helm/button": ["./libs/ui/button/src/index.ts"],
       "@spartan-ng/helm/card": ["./libs/ui/card/src/index.ts"],
+      "@spartan-ng/helm/checkbox": ["./libs/ui/checkbox/src/index.ts"],
       "@spartan-ng/helm/empty": ["./libs/ui/empty/src/index.ts"],
       "@spartan-ng/helm/dropdown-menu": [
         "./libs/ui/dropdown-menu/src/index.ts"

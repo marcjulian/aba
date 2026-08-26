@@ -1,5 +1,9 @@
 import { createColumnHelper } from '@tanstack/angular-table';
 import type { UserWithRole } from 'better-auth/plugins/admin';
+import {
+  TableHeadSelection,
+  TableRowSelection,
+} from '../../../tools/table/selection-column';
 import { TableHeadSortButton } from './sort-header-button';
 import { UserActionDropdown } from './user-action-dropdown';
 import { UserRoleBadge } from './user-role-badge';
@@ -17,6 +21,11 @@ const dateTimeFormatter = new Intl.DateTimeFormat('de-DE', {
 });
 
 export const userColumns = columnHelper.columns([
+  columnHelper.display({
+    id: 'select',
+    header: () => TableHeadSelection,
+    cell: () => TableRowSelection,
+  }),
   columnHelper.accessor('name', {
     id: 'name',
     header: 'Name',

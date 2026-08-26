@@ -23,7 +23,9 @@ import { injectTableContext } from '@tanstack/angular-table';
       lucideChevronsRight,
     }),
   ],
-  host: { class: 'justify-end flex items-center gap-4' },
+  host: {
+    class: 'justify-end flex flex-col sm:flex-row sm:items-center gap-4',
+  },
   template: `
     <div class="flex gap-2">
       <span hlmLabel>Rows per page</span>
@@ -45,51 +47,53 @@ import { injectTableContext } from '@tanstack/angular-table';
         </hlm-select-content>
       </hlm-select>
     </div>
-    <span hlmLabel>
-      Page {{ table().atoms.pagination.get().pageIndex + 1 }} of
-      {{ table().getPageCount() }}
-    </span>
     <div class="flex gap-2">
-      <button
-        hlmBtn
-        size="icon-sm"
-        variant="outline"
-        [disabled]="!table().getCanPreviousPage()"
-        (click)="table().firstPage()"
-      >
-        <span class="sr-only">First page</span>
-        <ng-icon name="lucideChevronsLeft" />
-      </button>
-      <button
-        hlmBtn
-        size="icon-sm"
-        variant="outline"
-        [disabled]="!table().getCanPreviousPage()"
-        (click)="table().previousPage()"
-      >
-        <span class="sr-only">Previous page</span>
-        <ng-icon name="lucideChevronLeft" />
-      </button>
-      <button
-        hlmBtn
-        size="icon-sm"
-        variant="outline"
-        [disabled]="!table().getCanNextPage()"
-        (click)="table().nextPage()"
-      >
-        <span class="sr-only">Next page</span>
-        <ng-icon name="lucideChevronRight" />
-      </button>
-      <button
-        hlmBtn
-        size="icon-sm"
-        variant="outline"
-        [disabled]="!table().getCanNextPage()"
-        (click)="table().lastPage()"
-      >
-        <span class="sr-only">Last page</span>
-        <ng-icon name="lucideChevronsRight" />
-      </button>
+      <span hlmLabel>
+        Page {{ table().atoms.pagination.get().pageIndex + 1 }} of
+        {{ table().getPageCount() }}
+      </span>
+      <div class="flex gap-2">
+        <button
+          hlmBtn
+          size="icon-sm"
+          variant="outline"
+          [disabled]="!table().getCanPreviousPage()"
+          (click)="table().firstPage()"
+        >
+          <span class="sr-only">First page</span>
+          <ng-icon name="lucideChevronsLeft" />
+        </button>
+        <button
+          hlmBtn
+          size="icon-sm"
+          variant="outline"
+          [disabled]="!table().getCanPreviousPage()"
+          (click)="table().previousPage()"
+        >
+          <span class="sr-only">Previous page</span>
+          <ng-icon name="lucideChevronLeft" />
+        </button>
+        <button
+          hlmBtn
+          size="icon-sm"
+          variant="outline"
+          [disabled]="!table().getCanNextPage()"
+          (click)="table().nextPage()"
+        >
+          <span class="sr-only">Next page</span>
+          <ng-icon name="lucideChevronRight" />
+        </button>
+        <button
+          hlmBtn
+          size="icon-sm"
+          variant="outline"
+          [disabled]="!table().getCanNextPage()"
+          (click)="table().lastPage()"
+        >
+          <span class="sr-only">Last page</span>
+          <ng-icon name="lucideChevronsRight" />
+        </button>
+      </div>
     </div>
   `,
 })

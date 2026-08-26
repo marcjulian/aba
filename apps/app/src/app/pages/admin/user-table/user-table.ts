@@ -8,6 +8,7 @@ import {
   input,
   linkedSignal,
   numberAttribute,
+  signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgIcon, provideIcons } from '@ng-icons/core';
@@ -19,17 +20,20 @@ import { HlmTableImports } from '@spartan-ng/helm/table';
 import {
   injectQuery,
   keepPreviousData,
+  QueryClient,
 } from '@tanstack/angular-query-experimental';
 import {
   FlexRender,
   injectTable,
   isFunction,
-  PaginationState,
-  SortingState,
+  type PaginationState,
+  type RowSelectionState,
+  type SortingState,
   TanStackTable,
 } from '@tanstack/angular-table';
 import { injectTanStackTableDevtools } from '@tanstack/angular-table-devtools';
 import { injectAuthClient } from '../../../auth/auth-client';
+import { TableSelectionActions } from '../../../tools/table/selection-actions';
 import { parseSort, serializeSort } from '../../../tools/table/sort';
 import { TablePaginaton } from '../../../ui/table/pagination';
 import { userColumns } from './columns';
@@ -45,6 +49,7 @@ import { userTableFeatures } from './user-table-features';
     HlmEmptyImports,
     TanStackTable,
     NgIcon,
+    TableSelectionActions,
     TablePaginaton,
   ],
   providers: [
@@ -56,8 +61,10 @@ import { userTableFeatures } from './user-table-features';
   ],
   host: { class: 'flex flex-col gap-3' },
   template: `
-    <div class="flex items-center gap-2">
-      <hlm-input-group class="w-full md:w-80">
+    <div
+      class="flex flex-col justify-between gap-2 sm:flex-row sm:items-center"
+    >
+      <hlm-input-group class="w-full sm:w-80">
         <input
           hlmInputGroupInput
           placeholder="Search by email..."
@@ -80,6 +87,13 @@ import { userTableFeatures } from './user-table-features';
           </hlm-input-group-addon>
         }
       </hlm-input-group>
+
+      @if (_table.getSelectedRowModel().rows.length; as rowLength) {
+        <app-table-selection-actions
+          [count]="rowLength"
+          (confirmed)="deleteSelected()"
+        />
+      }
     </div>
 
     <div class="overflow-hidden rounded-md border">
@@ -175,6 +189,7 @@ export class UserTable {
 
   protected readonly _availablePageSizes = [10, 20, 50, 100];
 
+  private readonly queryClient = inject(QueryClient);
   readonly page = input<number, NumberInput>(1, {
     transform: (value) => numberAttribute(value, 1),
   });
@@ -197,6 +212,8 @@ export class UserTable {
   private readonly debouncedQuery = debounced(this.query, 300);
 
   protected readonly inputValue = computed(() => this.query() ?? '');
+
+  private readonly rowSelection = signal<RowSelectionState>({});
 
   private readonly usersQuery = injectQuery(() => ({
     queryKey: ['users', this.sort(), this.q(), this.pagination()],
@@ -232,6 +249,7 @@ export class UserTable {
     state: {
       sorting: this.sort(),
       pagination: this.pagination(),
+      rowSelection: this.rowSelection(),
     },
     onSortingChange: (updater) => {
       this.router.navigate([], {
@@ -242,6 +260,11 @@ export class UserTable {
         },
         queryParamsHandling: 'merge',
       });
+    },
+    onRowSelectionChange: (updater) => {
+      updater instanceof Function
+        ? this.rowSelection.update(updater)
+        : this.rowSelection.set(updater);
     },
     onPaginationChange: (updater) => {
       this.router.navigate([], {
@@ -289,5 +312,16 @@ export class UserTable {
 
   protected onResetSearch(): void {
     this.query.set('');
+  }
+
+  protected async deleteSelected(): Promise<void> {
+    const selectedRows = this._table.getSelectedRowModel().rows;
+
+    for (const row of selectedRows) {
+      await this.authClient.admin.removeUser({ userId: row.original.id });
+    }
+
+    this.rowSelection.set({});
+    await this.queryClient.invalidateQueries({ queryKey: ['users'] });
   }
 }
