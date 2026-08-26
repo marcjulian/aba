@@ -53,7 +53,7 @@ Run the following command to update prisma schema base on the Better Auth config
 
 ```bash
 # generate schema
-pnpm dlx auth@latest generate --config apps/api/server/utils/auth.ts
+pnpm auth generate --config apps/api/server/utils/auth.ts
 ```
 
 ### Prisma
