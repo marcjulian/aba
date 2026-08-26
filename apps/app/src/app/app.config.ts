@@ -17,12 +17,10 @@ import {
   QueryClient,
   provideTanStackQuery,
 } from '@tanstack/angular-query-experimental';
-import { TableDevtoolsPanel } from '@tanstack/angular-table-devtools';
 import { filter, first } from 'rxjs';
 import { appRoutes } from './app.routes';
 import { injectAuthClient } from './auth/auth-client';
 import { cookiesInterceptor } from './auth/cookies.interceptor';
-import { queryDevtoolsPanel } from './tools/query-devtools';
 import { provideSeo } from './tools/seo.types';
 import { provideTitleStrategy } from './tools/title.strategy';
 
@@ -45,11 +43,17 @@ export const appConfig: ApplicationConfig = {
           plugins: [
             {
               name: 'TanStack Table',
-              render: TableDevtoolsPanel,
+              render: () =>
+                import('@tanstack/angular-table-devtools').then((m) =>
+                  m.TableDevtoolsPanel(),
+                ),
             },
             {
               name: 'TanStack Query',
-              render: () => queryDevtoolsPanel,
+              render: () =>
+                import('./tools/query-devtools').then(
+                  (m) => m.queryDevtoolsPanel,
+                ),
             },
           ],
         }))
