@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { HlmCheckboxImports } from '@spartan-ng/helm/checkbox';
 import {
   injectTableCellContext,
@@ -33,6 +33,7 @@ export class TableHeadSelection {
   },
   template: `
     <hlm-checkbox
+      [disabled]="disabled()"
       [checked]="cell().row.getIsSelected()"
       (checkedChange)="cell().row.toggleSelected($event)"
     />
@@ -40,4 +41,6 @@ export class TableHeadSelection {
 })
 export class TableRowSelection {
   readonly cell = injectTableCellContext();
+
+  readonly disabled = computed(() => !this.cell().row.getCanSelect());
 }

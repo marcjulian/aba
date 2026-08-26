@@ -228,6 +228,7 @@ export class UserTable {
     columns: userColumns,
     data: this.usersQuery.data()?.data?.users ?? [],
     rowCount: this.usersQuery.data()?.data?.total,
+    enableRowSelection: (row) => row.original.role !== 'admin',
     state: {
       sorting: this.sort(),
       pagination: this.pagination(),
