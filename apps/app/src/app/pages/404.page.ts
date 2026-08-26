@@ -8,8 +8,11 @@ import { BaseLayout } from '../layouts/base.layout';
   selector: 'app-not-found',
   imports: [BaseLayout, HlmEmptyImports, RouterLink, HlmButtonImports],
   template: `
-    <app-base-layout>
-      <hlm-empty class="min-h-[50vh]">
+    <app-base-layout
+      class="flex min-h-dvh flex-col"
+      mainClass="flex-1 flex items-center px-6"
+    >
+      <hlm-empty>
         <hlm-empty-header>
           <p class="text-muted-foreground font-bold">404</p>
           <h1 hlmEmptyTitle>Page not found</h1>
