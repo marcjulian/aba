@@ -9,9 +9,13 @@ export default defineConfig({
     '/api/auth/**': './server/utils/auth.ts',
     '/api/trpc/**': './server/trpc/trpc-handler.ts',
   },
-  routeRules: {
-    '/api/**': {
-      cors: { origin: [process.env['APP_URL'] ?? 'http://localhost:4200'], credentials: true },
-    },
-  },
+  // FIXME not working with runtime .env variables, compiled during build and needs to survive JSON
+  // routeRules: {
+  //   '/api/**': {
+  //     cors: {
+  //       origin: [process.env['APP_URL']!],
+  //       credentials: true,
+  //     },
+  //   },
+  // },
 });
