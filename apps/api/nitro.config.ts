@@ -1,3 +1,4 @@
+import env from '#server/utils/env.ts';
 import { defineConfig } from 'nitro';
 
 export default defineConfig({
@@ -6,7 +7,10 @@ export default defineConfig({
     dir: '../../dist/apps/api',
   },
   routes: {
-    '/api/auth/**': './server/utils/auth-route.ts',
+    '/api/auth/**': './server/utils/auth.ts',
     '/api/trpc/**': './server/trpc/trpc-handler.ts',
+  },
+  routeRules: {
+    '/api/**': { cors: { origin: [env.APP_URL], credentials: true } },
   },
 });

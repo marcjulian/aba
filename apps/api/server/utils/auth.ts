@@ -21,3 +21,6 @@ export const auth = betterAuth({
   emailAndPassword: { enabled: true },
   plugins: [admin()],
 });
+
+
+export default { fetch: auth.handler };
