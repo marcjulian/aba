@@ -30,6 +30,7 @@ import { classes } from '@spartan-ng/helm/utils';
         'sideOffset',
         'state',
         'offsetX',
+        'scrollStrategy',
       ],
       outputs: ['stateChanged', 'closed'],
     },
