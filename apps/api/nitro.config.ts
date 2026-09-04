@@ -1,4 +1,3 @@
-import env from '#server/utils/env.ts';
 import { defineConfig } from 'nitro';
 
 export default defineConfig({
@@ -11,6 +10,8 @@ export default defineConfig({
     '/api/trpc/**': './server/trpc/trpc-handler.ts',
   },
   routeRules: {
-    '/api/**': { cors: { origin: [env.APP_URL], credentials: true } },
+    '/api/**': {
+      cors: { origin: [process.env['APP_URL']!], credentials: true },
+    },
   },
 });
