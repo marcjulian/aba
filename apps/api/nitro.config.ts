@@ -11,7 +11,7 @@ export default defineConfig({
   },
   routeRules: {
     '/api/**': {
-      cors: { origin: [process.env['APP_URL']!], credentials: true },
+      cors: { origin: [process.env['APP_URL'] ?? 'http://localhost:4200'], credentials: true },
     },
   },
 });
