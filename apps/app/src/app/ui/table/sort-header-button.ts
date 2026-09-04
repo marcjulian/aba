@@ -39,8 +39,7 @@ export class TableHeadSortButton {
 
   protected readonly label = computed(() => {
     const meta = this.column().columnDef.meta as
-      | Record<string, unknown>
-      | undefined;
+      Record<string, unknown> | undefined;
     const label = meta?.['label'] as string | undefined;
     return label ?? this.column().id;
   });

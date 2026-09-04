@@ -22,5 +22,4 @@ export const auth = betterAuth({
   plugins: [admin()],
 });
 
-
 export default { fetch: auth.handler };
