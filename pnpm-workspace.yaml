@@ -1,6 +1,7 @@
 minimumReleaseAge: 1440
 minimumReleaseAgeExclude:
   - '@spartan-ng/*'
+  - postcss@8.5.28
 
 packages:
   - 'apps/api'
