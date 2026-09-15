@@ -6,6 +6,7 @@ ENV PATH="$PNPM_HOME:$PATH"
 WORKDIR /app
 
 COPY package.json ./
+COPY pnpm-workspace.yaml ./
 
 RUN PNPM_VERSION=$(node -p "require('./package.json').packageManager.split('@')[1]") && \
     PRISMA_VERSION=$(node -p "require('./package.json').devDependencies.prisma") && \
