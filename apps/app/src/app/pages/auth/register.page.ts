@@ -20,7 +20,7 @@ import { injectAuthClient } from '../../auth/auth-client';
 import { AuthLayout } from '../../layouts/auth.layout';
 
 @Component({
-  selector: 'abst-register',
+  selector: 'app-register',
   imports: [
     AuthLayout,
     FormField,
