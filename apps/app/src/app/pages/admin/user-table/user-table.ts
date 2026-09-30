@@ -20,7 +20,7 @@ import { HlmTableImports } from '@spartan-ng/helm/table';
 import {
   injectQuery,
   keepPreviousData,
-} from '@tanstack/angular-query-experimental';
+} from '@tanstack/angular-query';
 import {
   FlexRender,
   injectTable,

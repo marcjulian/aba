@@ -11,7 +11,7 @@ import { toast } from '@spartan-ng/brain/sonner';
 import { HlmAlertDialogImports } from '@spartan-ng/helm/alert-dialog';
 import { HlmButton } from '@spartan-ng/helm/button';
 import { HlmDropdownMenuImports } from '@spartan-ng/helm/dropdown-menu';
-import { QueryClient } from '@tanstack/angular-query-experimental';
+import { QueryClient } from '@tanstack/angular-query';
 import type { Row } from '@tanstack/angular-table';
 import type { UserWithRole } from 'better-auth/plugins';
 import { injectAuthClient, injectAuthUser } from '../../../auth/auth-client';

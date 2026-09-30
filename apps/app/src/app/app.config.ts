@@ -13,14 +13,12 @@ import {
 } from '@angular/router';
 import { provideSpartanHlm } from '@spartan-ng/helm/utils';
 import { provideTanStackDevtools } from '@tanstack/angular-devtools/provider';
-import {
-  QueryClient,
-  provideTanStackQuery,
-} from '@tanstack/angular-query-experimental';
+import { provideTanStackQuery } from '@tanstack/angular-query';
 import { filter, first } from 'rxjs';
 import { appRoutes } from './app.routes';
 import { injectAuthClient } from './auth/auth-client';
 import { cookiesInterceptor } from './auth/cookies.interceptor';
+import { createQueryClient } from './query-client';
 import { provideSeo } from './tools/seo.types';
 import { provideTitleStrategy } from './tools/title.strategy';
 
@@ -37,7 +35,7 @@ export const appConfig: ApplicationConfig = {
       }),
     ),
     provideHttpClient(withInterceptors([cookiesInterceptor])),
-    provideTanStackQuery(new QueryClient()),
+    provideTanStackQuery(createQueryClient),
     isDevMode()
       ? provideTanStackDevtools(() => ({
           plugins: [
@@ -66,8 +64,6 @@ export const appConfig: ApplicationConfig = {
         'A full-stack Angular starter with Better Auth, tRPC, Prisma, and spartan/ui. Production-ready authentication and SSR out of the box.',
       robots: 'index, follow',
       ogType: 'website',
-      // ogImage: '/assets/og/og.webp',
-      // twitterCard: 'summary_large_image',
     }),
     provideTitleStrategy(),
     // used to prevent flicker while better auth state is being loaded on app start, by waiting for first non pending session state before app initialization is completed

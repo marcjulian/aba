@@ -1,8 +1,9 @@
-import { Component, resource } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgIcon, provideIcons } from '@ng-icons/core';
 import { lucideCircleCheck, lucideCircleX } from '@ng-icons/lucide';
 import { HlmBadgeImports } from '@spartan-ng/helm/badge';
 import { HlmCardImports } from '@spartan-ng/helm/card';
+import { injectQuery } from '@tanstack/angular-query';
 import { injectAuthUser } from '../../auth/auth-client';
 import { injectTrpc } from '../../trpc/trpc.service';
 
@@ -37,7 +38,7 @@ import { injectTrpc } from '../../trpc/trpc.service';
         </div>
       </hlm-card>
       <hlm-card>
-        @let meUser = me.value();
+        @let meUser = me.data();
         <hlm-card-header>
           <h2 hlmCardTitle>{{ meUser?.name }}</h2>
           <p hlmCardDescription>{{ meUser?.email }}</p>
@@ -65,5 +66,8 @@ export class DashboardPage {
   private readonly trpc = injectTrpc();
   readonly user = injectAuthUser();
 
-  me = resource({ loader: () => this.trpc.client.me.query() });
+  me = injectQuery(() => ({
+    queryKey: ['me'],
+    queryFn: () => this.trpc.client.me.query(),
+  }));
 }
