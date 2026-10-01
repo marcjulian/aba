@@ -18,6 +18,7 @@ import { HlmSpinnerImports } from '@spartan-ng/helm/spinner';
 import { environment } from '../../../environments/environment';
 import { injectAuthClient } from '../../auth/auth-client';
 import { AuthLayout } from '../../layouts/auth.layout';
+import { PasswordInput } from '../../ui/password-input';
 
 @Component({
   selector: 'app-register',
@@ -29,6 +30,7 @@ import { AuthLayout } from '../../layouts/auth.layout';
     HlmButtonImports,
     HlmInputImports,
     HlmSpinnerImports,
+    PasswordInput,
   ],
   template: `
     <app-auth-layout>
@@ -80,10 +82,8 @@ import { AuthLayout } from '../../layouts/auth.layout';
           </hlm-field>
           <hlm-field>
             <label hlmFieldLabel for="password">Password</label>
-            <input
-              hlmInput
-              id="password"
-              type="password"
+            <spartan-password-input
+              inputId="password"
               autocomplete="new-password"
               [formField]="form.password"
             />
@@ -100,10 +100,8 @@ import { AuthLayout } from '../../layouts/auth.layout';
           </hlm-field>
           <hlm-field>
             <label hlmFieldLabel for="confirmPassword">Confirm Password</label>
-            <input
-              hlmInput
-              type="password"
-              id="confirmPassword"
+            <spartan-password-input
+              inputId="confirmPassword"
               autocomplete="new-password"
               [formField]="form.confirmPassword"
             />

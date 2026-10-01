@@ -17,6 +17,7 @@ import { HlmSpinnerImports } from '@spartan-ng/helm/spinner';
 import { environment } from '../../../environments/environment';
 import { injectAuthClient } from '../../auth/auth-client';
 import { AuthLayout } from '../../layouts/auth.layout';
+import { PasswordInput } from '../../ui/password-input';
 
 @Component({
   selector: 'app-login',
@@ -28,6 +29,7 @@ import { AuthLayout } from '../../layouts/auth.layout';
     HlmButtonImports,
     HlmInputImports,
     HlmSpinnerImports,
+    PasswordInput,
   ],
   template: `
     <app-auth-layout>
@@ -57,13 +59,7 @@ import { AuthLayout } from '../../layouts/auth.layout';
           </hlm-field>
           <hlm-field>
             <label hlmFieldLabel for="password">Password</label>
-            <input
-              hlmInput
-              id="password"
-              type="password"
-              autocomplete="current-password"
-              [formField]="form.password"
-            />
+            <spartan-password-input inputId="password" [formField]="form.password" />
             @if (form.password().touched() && form.password().invalid()) {
               @for (error of form.password().errors(); track error) {
                 <hlm-field-error>{{ error.message }}</hlm-field-error>

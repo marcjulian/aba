@@ -17,10 +17,7 @@ import { HlmButtonImports } from '@spartan-ng/helm/button';
 import { HlmEmptyImports } from '@spartan-ng/helm/empty';
 import { HlmInputGroupImports } from '@spartan-ng/helm/input-group';
 import { HlmTableImports } from '@spartan-ng/helm/table';
-import {
-  injectQuery,
-  keepPreviousData,
-} from '@tanstack/angular-query';
+import { injectQuery, keepPreviousData } from '@tanstack/angular-query';
 import {
   FlexRender,
   injectTable,

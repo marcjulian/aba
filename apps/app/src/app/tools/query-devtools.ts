@@ -1,6 +1,6 @@
 import { ElementRef } from '@angular/core';
 import type { TanStackDevtoolsAngularFunctionalComponent } from '@tanstack/angular-devtools';
-import { injectDevtoolsPanel } from '@tanstack/angular-query-devtools/devtools-panel'
+import { injectDevtoolsPanel } from '@tanstack/angular-query-devtools/devtools-panel';
 
 export const queryDevtoolsPanel: TanStackDevtoolsAngularFunctionalComponent = (
   _inputs,
