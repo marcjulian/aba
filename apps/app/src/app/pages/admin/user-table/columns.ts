@@ -49,7 +49,7 @@ export const userColumns = columnHelper.columns([
     id: 'createdAt',
     meta: { label: 'Created' },
     header: () => TableHeadSortButton,
-    cell: (info) => dateTimeFormatter.format(info.getValue()),
+    cell: (info) => dateTimeFormatter.format(new Date(info.getValue())),
   }),
   columnHelper.display({
     id: 'actions',
