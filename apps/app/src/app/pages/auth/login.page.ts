@@ -59,7 +59,10 @@ import { PasswordInput } from '../../ui/password-input';
           </hlm-field>
           <hlm-field>
             <label hlmFieldLabel for="password">Password</label>
-            <spartan-password-input inputId="password" [formField]="form.password" />
+            <spartan-password-input
+              inputId="password"
+              [formField]="form.password"
+            />
             @if (form.password().touched() && form.password().invalid()) {
               @for (error of form.password().errors(); track error) {
                 <hlm-field-error>{{ error.message }}</hlm-field-error>
